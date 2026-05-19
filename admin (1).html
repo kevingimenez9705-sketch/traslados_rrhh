@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin RRHH — Panel de Requerimientos</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0f2240;--navy-mid:#1a3560;
+  --text:#1a1a2e;--muted:#5a6478;--line:#d0d7e6;--white:#ffffff;
+  --bg:#f0f3f9;--card:#ffffff;
+  --danger:#c0392b;--danger-light:#fdf0ee;
+  --success:#145a4a;--success-light:#e6f4f1;
+  --warn:#b8922a;--warn-light:#f5edd8;
+  --radius:6px;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+/* NAV */
+nav{background:var(--navy);padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:56px}
+.nav-title{color:#fff;font-size:15px;font-weight:600;letter-spacing:.02em}
+.nav-sub{color:rgba(255,255,255,.5);font-size:12px;margin-left:12px}
+.nav-right{display:flex;align-items:center;gap:12px}
+/* LOGIN */
+#login-view{display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 56px);padding:20px}
+.login-card{background:var(--card);border-radius:12px;padding:40px 48px;max-width:420px;width:100%;box-shadow:0 2px 20px rgba(15,34,64,.10)}
+.login-card h2{font-size:18px;font-weight:600;margin-bottom:6px}
+.login-card p{font-size:13px;color:var(--muted);margin-bottom:28px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.field label{font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
+.field input{border:1px solid var(--line);border-radius:var(--radius);padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text)}
+.field input:focus{outline:none;border-color:var(--navy-mid);box-shadow:0 0 0 3px rgba(26,53,96,.10)}
+/* MAIN */
+#main-view{display:none;padding:28px 32px}
+.toolbar{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.toolbar h1{font-size:18px;font-weight:600;flex:1}
+.filter-group{display:flex;gap:8px;align-items:center}
+select.filter,input.filter{border:1px solid var(--line);border-radius:var(--radius);padding:7px 12px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:var(--white)}
+select.filter:focus,input.filter:focus{outline:none;border-color:var(--navy-mid)}
+/* TABLE */
+.table-wrap{overflow-x:auto;border-radius:8px;box-shadow:0 1px 8px rgba(15,34,64,.07)}
+table{width:100%;border-collapse:collapse;background:var(--white);font-size:13px}
+th{background:var(--navy);color:rgba(255,255,255,.85);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:11px 14px;text-align:left;white-space:nowrap}
+td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f8f9fc}
+.badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.badge-baja{background:var(--danger-light);color:var(--danger)}
+.badge-traslado{background:var(--success-light);color:var(--success)}
+.badge-pendiente{background:#f0f3f9;color:var(--muted)}
+.badge-aprobado{background:var(--success-light);color:var(--success)}
+.badge-rechazado{background:var(--danger-light);color:var(--danger)}
+.badge-procesado{background:#e8edf5;color:var(--navy-mid)}
+.btn{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:7px 14px;border-radius:var(--radius);border:1px solid transparent;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
+.btn-primary{background:var(--navy);color:#fff}
+.btn-primary:hover{background:var(--navy-mid)}
+.btn-ghost{background:transparent;border-color:var(--line);color:var(--muted)}
+.btn-ghost:hover{border-color:var(--navy-mid);color:var(--navy-mid)}
+.btn-sm{font-size:11px;padding:4px 10px}
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(15,34,64,.55);z-index:100;overflow-y:auto;padding:40px 20px}
+.modal-bg.open{display:block}
+.modal{background:var(--white);border-radius:12px;max-width:720px;margin:0 auto;overflow:hidden}
+.modal-header{background:var(--navy);padding:20px 28px;display:flex;align-items:center;justify-content:space-between}
+.modal-header h2{color:#fff;font-size:16px;font-weight:600}
+.modal-close{background:transparent;border:none;color:rgba(255,255,255,.6);font-size:20px;cursor:pointer;line-height:1}
+.modal-close:hover{color:#fff}
+.modal-body{padding:28px}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 28px;margin-bottom:24px}
+.detail-item{display:flex;flex-direction:column;gap:3px}
+.detail-label{font-size:10px;font-weight:600;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+.detail-value{font-size:14px;color:var(--text)}
+.sig-preview{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}
+.sig-box{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;text-align:center}
+.sig-box img{width:100%;display:block;background:#fafbfd}
+.sig-box .sig-acl{font-size:10px;color:var(--muted);padding:4px 6px;border-top:1px solid var(--line)}
+.section-title{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding-bottom:8px;border-bottom:1px solid var(--line);margin:20px 0 14px}
+.status-select{border:1px solid var(--line);border-radius:var(--radius);padding:6px 10px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text)}
+.empty{text-align:center;padding:60px 20px;color:var(--muted)}
+.error-box{background:var(--danger-light);color:var(--danger);border-radius:var(--radius);padding:12px 16px;margin-bottom:16px;font-size:13px;display:none}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.stat-card{background:var(--white);border-radius:8px;padding:16px 18px;box-shadow:0 1px 8px rgba(15,34,64,.07)}
+.stat-label{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.stat-value{font-size:24px;font-weight:600;color:var(--text)}
+@media(max-width:600px){.detail-grid{grid-template-columns:1fr}.sig-preview{grid-template-columns:1fr 1fr}.stats-row{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div style="display:flex;align-items:center">
+    <span class="nav-title">RRHH Admin</span>
+    <span class="nav-sub">Panel de Requerimientos</span>
+  </div>
+  <div class="nav-right" id="navRight">
+    <button class="btn btn-ghost" style="color:rgba(255,255,255,.6);border-color:rgba(255,255,255,.2)" onclick="logout()">Cerrar sesión</button>
+  </div>
+</nav>
+
+<!-- LOGIN -->
+<div id="login-view">
+  <div class="login-card">
+    <h2>Acceso al panel</h2>
+    <p>Ingresá con tus credenciales de Supabase para ver los requerimientos.</p>
+    <div id="login-error" class="error-box"></div>
+    <div class="field"><label>Email</label><input type="email" id="login-email" placeholder="admin@tuempresa.com"/></div>
+    <div class="field"><label>Contraseña</label><input type="password" id="login-pass" placeholder="••••••••"/></div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px" onclick="doLogin()">Ingresar</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div id="main-view">
+  <div class="stats-row" id="statsRow">
+    <div class="stat-card"><div class="stat-label">Total</div><div class="stat-value" id="statTotal">—</div></div>
+    <div class="stat-card"><div class="stat-label">Pendientes</div><div class="stat-value" id="statPend">—</div></div>
+    <div class="stat-card"><div class="stat-label">Bajas</div><div class="stat-value" id="statBaja">—</div></div>
+    <div class="stat-card"><div class="stat-label">Traslados</div><div class="stat-value" id="statTras">—</div></div>
+  </div>
+
+  <div class="toolbar">
+    <h1>Requerimientos</h1>
+    <div class="filter-group">
+      <select class="filter" id="filtTipo" onchange="loadData()">
+        <option value="">Todos los tipos</option>
+        <option value="baja">Baja</option>
+        <option value="traslado">Traslado</option>
+      </select>
+      <select class="filter" id="filtEstado" onchange="loadData()">
+        <option value="">Todos los estados</option>
+        <option value="pendiente">Pendiente</option>
+        <option value="aprobado">Aprobado</option>
+        <option value="rechazado">Rechazado</option>
+        <option value="procesado">Procesado</option>
+      </select>
+      <input class="filter" type="text" id="filtSearch" placeholder="Buscar empleado o legajo…" oninput="applySearch()"/>
+      <button class="btn btn-ghost" onclick="loadData()">↺ Actualizar</button>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Fecha</th><th>Tipo</th><th>Empleado</th><th>Legajo</th>
+          <th>Solicitante</th><th>Motivo / Destino</th><th>Estado</th><th></th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- MODAL DETALLE -->
+<div class="modal-bg" id="modalBg" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h2 id="modalTitle">Detalle del requerimiento</h2>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+// ══ CONFIGURACIÓN — reemplazá con tus datos de Supabase ════════════════
+const SUPABASE_URL  = 'https://opudhfyutajkhufzuqxy.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9wdWRoZnl1dGFqa2h1Znp1cXh5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxODM3OTksImV4cCI6MjA5NDc1OTc5OX0.t4G0dakgazye_lENJXWJwnawLi0JRsVSsLkhnwP8CcA'; // anon key
+// ════════════════════════════════════════════════════════════════════════
+
+let token = null;
+let allRows = [];
+
+// ─── AUTH ──────────────────────────────────────────────────────────────
+async function doLogin(){
+  const email=document.getElementById('login-email').value;
+  const pass=document.getElementById('login-pass').value;
+  const errBox=document.getElementById('login-error');
+  errBox.style.display='none';
+  try{
+    const res=await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','apikey':SUPABASE_ANON},
+      body:JSON.stringify({email,password:pass})
+    });
+    const d=await res.json();
+    if(d.error){throw new Error(d.error_description||d.error);}
+    token=d.access_token;
+    document.getElementById('login-view').style.display='none';
+    document.getElementById('main-view').style.display='block';
+    loadData();
+  }catch(e){
+    errBox.textContent=e.message;errBox.style.display='block';
+  }
+}
+
+function logout(){token=null;document.getElementById('login-view').style.display='flex';document.getElementById('main-view').style.display='none';}
+
+// ─── FETCH ─────────────────────────────────────────────────────────────
+async function apiFetch(path,opts={}){
+  return fetch(`${SUPABASE_URL}/rest/v1${path}`,{
+    headers:{
+      'apikey':SUPABASE_ANON,
+      'Authorization':`Bearer ${token}`,
+      'Content-Type':'application/json',
+      'Prefer':'return=representation',
+      ...opts.headers
+    },...opts
+  });
+}
+
+async function loadData(){
+  let q='/v_requerimientos_resumen?order=created_at.desc&limit=200';
+  const tipo=document.getElementById('filtTipo').value;
+  const est=document.getElementById('filtEstado').value;
+  if(tipo)q+=`&tipo=eq.${tipo}`;
+  if(est)q+=`&estado=eq.${est}`;
+  const res=await apiFetch(q);
+  allRows=await res.json();
+  applySearch();
+  updateStats(allRows);
+}
+
+function applySearch(){
+  const s=document.getElementById('filtSearch').value.toLowerCase();
+  const filtered=s?allRows.filter(r=>(r.emp_nombre||'').toLowerCase().includes(s)||(r.emp_legajo||'').toLowerCase().includes(s)):allRows;
+  renderTable(filtered);
+}
+
+function updateStats(rows){
+  document.getElementById('statTotal').textContent=rows.length;
+  document.getElementById('statPend').textContent=rows.filter(r=>r.estado==='pendiente').length;
+  document.getElementById('statBaja').textContent=rows.filter(r=>r.tipo==='baja').length;
+  document.getElementById('statTras').textContent=rows.filter(r=>r.tipo==='traslado').length;
+}
+
+function renderTable(rows){
+  const tbody=document.getElementById('tableBody');
+  if(!rows.length){tbody.innerHTML='<tr><td colspan="8" class="empty">No hay requerimientos para los filtros seleccionados.</td></tr>';return;}
+  tbody.innerHTML=rows.map(r=>`
+<tr>
+  <td>${r.fecha||formatDate(r.created_at)}</td>
+  <td><span class="badge badge-${r.tipo}">${r.tipo}</span></td>
+  <td>${esc(r.emp_nombre||'—')}</td>
+  <td>${esc(r.emp_legajo||'—')}</td>
+  <td>${esc(r.solicitante||'—')}</td>
+  <td>${esc(r.tipo==='baja'?(r.motivo_baja||'—'):(r.area_destino||'—'))}</td>
+  <td><span class="badge badge-${r.estado}">${r.estado}</span></td>
+  <td><button class="btn btn-ghost btn-sm" onclick="openDetail('${r.id}')">Ver →</button></td>
+</tr>`).join('');
+}
+
+// ─── DETAIL ───────────────────────────────────────────────────────────
+async function openDetail(id){
+  const res=await apiFetch(`/requerimientos?id=eq.${id}&limit=1`);
+  const rows=await res.json();
+  const r=rows[0];if(!r)return;
+  document.getElementById('modalTitle').textContent=`Requerimiento — ${r.tipo==='baja'?'Baja':'Traslado'}: ${r.emp_nombre}`;
+  document.getElementById('modalBg').classList.add('open');
+
+  const extra = r.tipo==='baja'
+    ? `<div class="section-title">Información de Baja</div>
+       <div class="detail-grid">
+         <div class="detail-item"><div class="detail-label">Motivo</div><div class="detail-value">${esc(r.motivo_baja||'—')}</div></div>
+         <div class="detail-item"><div class="detail-label">Fecha efectiva</div><div class="detail-value">${r.fecha_baja||'—'}</div></div>
+         <div class="detail-item"><div class="detail-label">Monto sin causa</div><div class="detail-value">$ ${esc(r.monto_sc||'—')}</div></div>
+         <div class="detail-item"><div class="detail-label">Monto con causa</div><div class="detail-value">$ ${esc(r.monto_cc||'—')}</div></div>
+       </div>
+       <div class="detail-item" style="margin-bottom:12px"><div class="detail-label">Reseña</div><div class="detail-value" style="white-space:pre-wrap">${esc(r.resena||'—')}</div></div>
+       <div class="detail-item"><div class="detail-label">Antecedentes</div><div class="detail-value" style="white-space:pre-wrap">${esc(r.antecedentes||'—')}</div></div>`
+    : `<div class="section-title">Información del Traslado</div>
+       <div class="detail-grid">
+         <div class="detail-item"><div class="detail-label">Área destino</div><div class="detail-value">${esc(r.area_destino||'—')}</div></div>
+         <div class="detail-item"><div class="detail-label">CC destino</div><div class="detail-value">${esc(r.cc_destino||'—')}</div></div>
+         <div class="detail-item"><div class="detail-label">Tipo traslado</div><div class="detail-value">${esc(r.tipo_traslado||'—')}</div></div>
+         <div class="detail-item"><div class="detail-label">Fecha efectiva</div><div class="detail-value">${r.fecha_traslado||'—'}</div></div>
+         <div class="detail-item"><div class="detail-label">Hasta</div><div class="detail-value">${r.hasta_traslado||'—'}</div></div>
+         <div class="detail-item"><div class="detail-label">Nuevo puesto</div><div class="detail-value">${esc(r.nuevo_puesto||'—')}</div></div>
+       </div>
+       <div class="detail-item" style="margin-bottom:12px"><div class="detail-label">Motivo</div><div class="detail-value" style="white-space:pre-wrap">${esc(r.motivo_traslado||'—')}</div></div>`;
+
+  const sigs=['solicitante','ejecutivo','rrhh','autorizacion'];
+  const sigHtml=`<div class="section-title">Firmas</div>
+<div class="sig-preview">${sigs.map(s=>`
+  <div class="sig-box">
+    ${r['firma_'+s]?`<img src="${r['firma_'+s]}" alt="firma ${s}"/>`:'<div style="height:70px;background:#f5f5f5;display:flex;align-items:center;justify-content:center;font-size:11px;color:#bbb">Sin firma</div>'}
+    <div class="sig-acl">${esc(r['acl_'+s]||'—')}</div>
+  </div>`).join('')}
+</div>`;
+
+  document.getElementById('modalBody').innerHTML=`
+<div class="detail-grid">
+  <div class="detail-item"><div class="detail-label">Empleado</div><div class="detail-value">${esc(r.emp_nombre||'—')}</div></div>
+  <div class="detail-item"><div class="detail-label">Legajo</div><div class="detail-value">${esc(r.emp_legajo||'—')}</div></div>
+  <div class="detail-item"><div class="detail-label">Área actual</div><div class="detail-value">${esc(r.emp_area||'—')}</div></div>
+  <div class="detail-item"><div class="detail-label">Puesto</div><div class="detail-value">${esc(r.emp_puesto||'—')}</div></div>
+  <div class="detail-item"><div class="detail-label">Solicitante</div><div class="detail-value">${esc(r.solicitante||'—')}</div></div>
+  <div class="detail-item"><div class="detail-label">Fecha solicitud</div><div class="detail-value">${r.fecha||formatDate(r.created_at)}</div></div>
+</div>
+${extra}
+${sigHtml}
+<div class="section-title">Estado y Notas Internas</div>
+<div style="display:grid;grid-template-columns:200px 1fr;gap:12px;align-items:start">
+  <div>
+    <label style="font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:6px">Estado</label>
+    <select class="status-select" id="detail-estado">
+      <option value="pendiente" ${r.estado==='pendiente'?'selected':''}>Pendiente</option>
+      <option value="aprobado"  ${r.estado==='aprobado' ?'selected':''}>Aprobado</option>
+      <option value="rechazado" ${r.estado==='rechazado'?'selected':''}>Rechazado</option>
+      <option value="procesado" ${r.estado==='procesado'?'selected':''}>Procesado</option>
+    </select>
+  </div>
+  <div>
+    <label style="font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:6px">Notas Admin</label>
+    <textarea id="detail-notas" rows="2" style="width:100%;border:1px solid var(--line);border-radius:var(--radius);padding:8px 10px;font-family:'DM Sans',sans-serif;font-size:13px;resize:vertical">${esc(r.notas_admin||'')}</textarea>
+  </div>
+</div>
+<div style="display:flex;justify-content:flex-end;margin-top:16px;gap:10px">
+  <button class="btn btn-ghost" onclick="closeModal()">Cerrar</button>
+  <button class="btn btn-primary" onclick="saveStatus('${r.id}')">Guardar cambios</button>
+</div>`;
+}
+
+async function saveStatus(id){
+  const estado=document.getElementById('detail-estado').value;
+  const notas=document.getElementById('detail-notas').value;
+  await apiFetch(`/requerimientos?id=eq.${id}`,{
+    method:'PATCH',
+    body:JSON.stringify({estado,notas_admin:notas})
+  });
+  closeModal();loadData();
+}
+
+function closeModal(e){if(e&&e.target!==document.getElementById('modalBg'))return;document.getElementById('modalBg').classList.remove('open');}
+
+// ─── UTIL ─────────────────────────────────────────────────────────────
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function formatDate(iso){if(!iso)return'—';return new Date(iso).toLocaleDateString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric'});}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+</script>
+</body>
+</html>

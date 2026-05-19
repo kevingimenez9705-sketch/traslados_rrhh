@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Requerimiento de Personal — RRHH</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0f2240;--navy-mid:#1a3560;
+  --gold:#b8922a;--gold-light:#f5edd8;
+  --text:#1a1a2e;--muted:#5a6478;--line:#d0d7e6;--white:#fff;
+  --danger:#c0392b;--danger-bg:#fdf0ee;
+  --green:#145a4a;--green-bg:#e6f4f1;
+  --radius:6px;
+}
+body{font-family:'DM Sans',sans-serif;background:#f0f3f9;color:var(--text);min-height:100vh;padding:40px 20px}
+.page{max-width:860px;margin:0 auto;background:var(--white);box-shadow:0 2px 24px rgba(15,34,64,.11);border-radius:12px;overflow:hidden}
+
+/* NAV */
+.header{background:var(--navy);padding:22px 40px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.org-name{font-family:'Playfair Display',serif;font-size:11px;font-weight:500;letter-spacing:.18em;color:rgba(255,255,255,.5);text-transform:uppercase;display:block;margin-bottom:3px}
+.doc-title{font-family:'Playfair Display',serif;font-size:21px;color:#fff;font-weight:600}
+.header-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+
+/* SHARE STATUS PILL */
+.share-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.07em;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .2s}
+.share-pill.new{background:rgba(255,255,255,.15);color:rgba(255,255,255,.8)}
+.share-pill.new:hover{background:rgba(255,255,255,.22)}
+.share-pill.saved{background:#3fc8a8;color:#04342c}
+.share-pill.saved:hover{background:#5dd4b6}
+.share-pill svg{flex-shrink:0}
+
+/* PROGRESS BAR */
+.progress-bar{height:3px;background:rgba(255,255,255,.12)}
+.progress-fill{height:3px;background:#3fc8a8;transition:width .5s}
+
+/* TYPE BAR */
+.type-bar{background:var(--navy-mid);padding:0 40px;display:flex}
+.type-btn{flex:1;max-width:200px;border:none;background:transparent;color:rgba(255,255,255,.5);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;letter-spacing:.05em;padding:13px 20px;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;text-transform:uppercase}
+.type-btn:hover{color:rgba(255,255,255,.8)}
+.type-btn.ab{color:#fff;border-bottom-color:#e05c4b}
+.type-btn.at{color:#fff;border-bottom-color:#3fc8a8}
+
+/* BODY */
+.body{padding:34px 40px}
+.type-stripe{border-radius:var(--radius);padding:10px 16px;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:26px;display:flex;align-items:center;gap:8px}
+.ts-baja{background:var(--danger-bg);color:var(--danger)}
+.ts-trs{background:var(--green-bg);color:var(--green)}
+.form-row{display:grid;gap:16px 24px;margin-bottom:20px}
+.c3{grid-template-columns:1fr 1fr 1fr}
+.c2{grid-template-columns:1fr 1fr}
+.c1{grid-template-columns:1fr}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
+.field input,.field select,.field textarea{border:1px solid var(--line);border-radius:var(--radius);padding:8px 12px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:var(--white);transition:border-color .15s,box-shadow .15s;width:100%}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--navy-mid);box-shadow:0 0 0 3px rgba(26,53,96,.09)}
+.field textarea{resize:vertical;min-height:80px;line-height:1.6}
+.sec-title{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding-bottom:9px;border-bottom:1px solid var(--line);margin:28px 0 18px}
+.montos-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px}
+.monto-card{border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px}
+.monto-card label{font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:7px}
+.monto-card input{border:none;border-bottom:1px solid var(--line);border-radius:0;padding:5px 0;font-family:'DM Sans',sans-serif;font-size:17px;font-weight:500;color:var(--text);width:100%}
+.monto-card input:focus{outline:none;border-bottom-color:var(--navy-mid)}
+.monto-p{font-size:12px;color:var(--muted);margin-top:3px}
+.divider{height:1px;background:var(--line);margin:24px 0}
+.meta-row{display:grid;grid-template-columns:150px 1fr 200px;gap:22px;margin-bottom:24px;align-items:end}
+.section-baja,.section-trs{display:none}
+.section-baja.on,.section-trs.on{display:block}
+
+/* ── FIRMA BLOCKS ── */
+.sigs-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.sigs-progress{font-size:12px;color:var(--muted)}
+.sigs-progress strong{color:var(--green)}
+.sigs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.sig-block{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:8px;overflow:hidden;transition:box-shadow .2s}
+.sig-block.signed{border-color:#9fe1cb;box-shadow:0 0 0 2px rgba(31,159,117,.15)}
+.sig-block.pending{border-color:var(--line)}
+.sig-role-bar{padding:7px 10px;background:#f8f9fc;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.sig-role-name{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.sig-badge{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:20px}
+.sig-badge.ok{background:var(--green-bg);color:var(--green)}
+.sig-badge.wait{background:#f0f3f9;color:var(--muted)}
+/* canvas area */
+.sig-canvas-area{position:relative;background:#fafbfd;touch-action:none}
+.sig-canvas-area canvas{display:block;width:100%;height:80px;touch-action:none;cursor:crosshair}
+.sig-canvas-area .sig-hint{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;transition:opacity .2s}
+.sig-canvas-area .sig-hint span{font-size:11px;color:#bcc3d1;font-style:italic}
+.sig-canvas-area .sig-clr{position:absolute;top:4px;right:5px;border:none;background:rgba(255,255,255,.9);border-radius:3px;font-size:10px;color:var(--muted);cursor:pointer;padding:2px 6px;line-height:1.5;font-family:'DM Sans',sans-serif;z-index:2}
+.sig-canvas-area .sig-clr:hover{color:var(--danger)}
+/* signed image view */
+.sig-img-area{position:relative;background:#f4fbf8}
+.sig-img-area img{display:block;width:100%;height:80px;object-fit:contain}
+.sig-img-area .sig-ts{position:absolute;bottom:3px;right:5px;font-size:9px;color:rgba(0,0,0,.25)}
+/* aclaración */
+.sig-acl{border-top:1px solid var(--line)}
+.sig-acl input{border:none;padding:6px 10px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--text);background:var(--white);width:100%;text-align:center}
+.sig-acl input::placeholder{color:#bcc3d1;font-style:italic}
+.sig-acl input:focus{outline:none;background:#f8f9fc}
+.sig-acl .sig-acl-text{padding:6px 10px;font-size:12px;color:var(--muted);text-align:center;background:#f4fbf8}
+/* confirm btn */
+.sig-confirm-btn{border:none;background:var(--navy);color:#fff;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;padding:7px;cursor:pointer;width:100%;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:5px}
+.sig-confirm-btn:hover{background:var(--navy-mid)}
+.sig-confirm-btn:disabled{background:#b0b8c8;cursor:not-allowed}
+.sig-confirm-btn .spin{width:12px;height:12px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;display:none}
+.sig-confirm-btn.loading .spin{display:block}
+.sig-confirm-btn.loading .lbl{display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ACTIONS */
+.actions{display:flex;justify-content:flex-end;gap:10px;padding:24px 40px;border-top:1px solid var(--line);background:#f8f9fc;flex-wrap:wrap}
+.btn{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;letter-spacing:.04em;padding:9px 20px;border-radius:var(--radius);border:1px solid transparent;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:7px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn-ghost{background:transparent;border-color:var(--line);color:var(--muted)}
+.btn-ghost:hover:not(:disabled){border-color:var(--navy-mid);color:var(--navy-mid)}
+.btn-primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+.btn-primary:hover:not(:disabled){background:var(--navy-mid)}
+.btn-gold{background:transparent;border-color:var(--gold);color:var(--gold)}
+.btn-gold:hover{background:var(--gold-light)}
+.btn .sp{width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
+.btn.loading .sp{display:block}
+.btn.loading .lbl{display:none}
+
+/* ── SHARE MODAL ── */
+.overlay{position:fixed;inset:0;background:rgba(15,34,64,.55);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.overlay.open{display:flex}
+.modal{background:var(--white);border-radius:12px;max-width:480px;width:100%;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.2)}
+.modal-hd{background:var(--navy);padding:18px 24px;display:flex;align-items:center;justify-content:space-between}
+.modal-hd h2{color:#fff;font-size:15px;font-weight:600}
+.modal-hd button{background:transparent;border:none;color:rgba(255,255,255,.6);font-size:18px;cursor:pointer;line-height:1}
+.modal-hd button:hover{color:#fff}
+.modal-bd{padding:24px}
+.link-box{display:flex;gap:8px;margin-bottom:18px}
+.link-box input{flex:1;border:1px solid var(--line);border-radius:var(--radius);padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--text);background:#f8f9fc}
+.share-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.share-btn{border:1px solid var(--line);background:var(--white);border-radius:var(--radius);padding:10px 12px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .15s;text-decoration:none;color:var(--text)}
+.share-btn:hover{border-color:var(--navy-mid);background:#f0f3f9}
+.share-btn.wa{border-color:#25d366;color:#128c7e}
+.share-btn.wa:hover{background:#e8fef0}
+.copy-feedback{font-size:12px;color:var(--green);text-align:center;height:16px;transition:opacity .3s}
+.roles-note{font-size:12px;color:var(--muted);line-height:1.6;border-top:1px solid var(--line);padding-top:14px;margin-top:4px}
+.roles-note strong{color:var(--text)}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;padding:12px 18px;border-radius:8px;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;box-shadow:0 4px 20px rgba(0,0,0,.15);transform:translateY(50px);opacity:0;transition:all .3s;z-index:300;max-width:320px;line-height:1.5;pointer-events:none}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.ok{background:var(--green);color:#fff}
+.toast.err{background:var(--danger);color:#fff}
+
+/* SYNC INDICATOR */
+.sync-dot{width:7px;height:7px;border-radius:50%;background:#3fc8a8;display:inline-block;margin-right:5px;opacity:0;transition:opacity .3s}
+.sync-dot.pulse{opacity:1;animation:pulse 1s ease-in-out}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.4)}}
+
+/* LOADING SCREEN */
+#load-screen{position:fixed;inset:0;background:#f0f3f9;z-index:500;display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+#load-screen.on{display:flex}
+#load-screen .sp{width:32px;height:32px;border:3px solid rgba(15,34,64,.15);border-top-color:var(--navy);border-radius:50%;animation:spin .8s linear infinite}
+#load-screen p{font-size:14px;color:var(--muted)}
+
+@media print{body{background:white;padding:0}.page{box-shadow:none;border-radius:0}.type-bar,.actions,.share-pill,.progress-bar,.sig-confirm-btn,.sig-clr,.toast,.overlay,#load-screen{display:none!important}.section-baja,.section-trs{display:block!important}.section-baja:not(.on),.section-trs:not(.on){display:none!important}.sig-canvas-area{display:none}.sig-block.pending .sig-canvas-area{display:block}}
+@media(max-width:680px){.body{padding:20px}.header{padding:16px 20px}.actions{padding:16px 20px;flex-wrap:wrap}.sigs-grid{grid-template-columns:1fr 1fr}.montos-grid{grid-template-columns:1fr}.meta-row{grid-template-columns:1fr}.c3{grid-template-columns:1fr 1fr}.c2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div id="load-screen"><div class="sp"></div><p>Cargando formulario…</p></div>
+
+<div class="page" id="thePage">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div>
+      <span class="org-name">Gerencia de Recursos Humanos</span>
+      <span class="doc-title">Requerimiento de Personal</span>
+    </div>
+    <div class="header-right">
+      <span class="sync-dot" id="syncDot"></span>
+      <button class="share-pill new" id="sharePill" onclick="openShareModal()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        <span id="sharePillLabel">Guardar y compartir</span>
+      </button>
+    </div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="sigProgress" style="width:0%"></div></div>
+
+  <!-- TYPE TABS -->
+  <div class="type-bar">
+    <button class="type-btn ab" id="btnBaja" onclick="setType('baja')">✕ &nbsp;Baja de personal</button>
+    <button class="type-btn" id="btnTrs" onclick="setType('traslado')">⇄ &nbsp;Traslado</button>
+  </div>
+
+  <!-- FORM -->
+  <div class="body">
+    <div class="type-stripe ts-baja" id="stripe">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+      <span id="stripeText">Requerimiento de Baja de Personal</span>
+    </div>
+
+    <div class="meta-row">
+      <div class="field"><label>Fecha</label><input type="date" id="fecha" oninput="schedSave()"/></div>
+      <div class="field"><label>Área</label><input type="text" placeholder="Nombre del área" id="area" oninput="schedSave()"/></div>
+      <div class="field"><label>Centro de Costos</label><input type="text" placeholder="Cód. CC" id="cc" oninput="schedSave()"/></div>
+    </div>
+    <div class="form-row c2">
+      <div class="field"><label>Solicitante</label><input type="text" placeholder="Nombre y apellido" id="solicitante" oninput="schedSave()"/></div>
+      <div class="field"><label>Puesto del Solicitante</label><input type="text" placeholder="Cargo" id="puestoSol" oninput="schedSave()"/></div>
+    </div>
+    <div class="divider"></div>
+    <div class="sec-title">Datos del Empleado</div>
+    <div class="form-row c1"><div class="field"><label>Nombre y Apellido</label><input type="text" placeholder="Nombre completo" id="empNombre" oninput="schedSave()"/></div></div>
+    <div class="form-row c3">
+      <div class="field"><label>Legajo</label><input type="text" placeholder="N° legajo" id="empLegajo" oninput="schedSave()"/></div>
+      <div class="field"><label>Área Actual</label><input type="text" placeholder="Área" id="empArea" oninput="schedSave()"/></div>
+      <div class="field"><label>Puesto</label><input type="text" placeholder="Cargo" id="empPuesto" oninput="schedSave()"/></div>
+    </div>
+
+    <!-- BAJA -->
+    <div class="section-baja on" id="secBaja">
+      <div class="sec-title">Información de Baja</div>
+      <div class="form-row c2">
+        <div class="field"><label>Motivo de la Baja</label>
+          <select id="motivoBaja" onchange="schedSave()">
+            <option value="">Seleccionar…</option>
+            <option>Despido sin causa</option><option>Despido con causa</option>
+            <option>Renuncia voluntaria</option><option>Mutuo acuerdo</option>
+            <option>Vencimiento de contrato</option><option>Abandono de trabajo</option><option>Otro</option>
+          </select>
+        </div>
+        <div class="field"><label>Fecha Efectiva</label><input type="date" id="fechaBaja" oninput="schedSave()"/></div>
+      </div>
+      <div class="form-row c1"><div class="field"><label>Breve Reseña de lo Acontecido</label><textarea id="resena" rows="4" placeholder="Descripción de los hechos…" oninput="schedSave()"></textarea></div></div>
+      <div class="form-row c1"><div class="field"><label>Antecedentes Disciplinarios</label><textarea id="antecedentes" rows="3" placeholder="Advertencias, apercibimientos o sanciones previas…" oninput="schedSave()"></textarea></div></div>
+      <div class="sec-title">Liquidación</div>
+      <div class="montos-grid">
+        <div class="monto-card"><label>Monto Sin Causa</label><input type="text" placeholder="0,00" id="montoSc" oninput="schedSave()"/><p class="monto-p">$ ARS</p></div>
+        <div class="monto-card"><label>Monto Con Causa</label><input type="text" placeholder="0,00" id="montoCc" oninput="schedSave()"/><p class="monto-p">$ ARS</p></div>
+      </div>
+    </div>
+
+    <!-- TRASLADO -->
+    <div class="section-trs" id="secTrs">
+      <div class="sec-title">Información del Traslado</div>
+      <div class="form-row c2">
+        <div class="field"><label>Área de Destino</label><input type="text" placeholder="Área destino" id="areaDestino" oninput="schedSave()"/></div>
+        <div class="field"><label>Centro de Costos Destino</label><input type="text" placeholder="Cód. CC" id="ccDestino" oninput="schedSave()"/></div>
+      </div>
+      <div class="form-row c3">
+        <div class="field"><label>Fecha Efectiva</label><input type="date" id="fechaTraslado" oninput="schedSave()"/></div>
+        <div class="field"><label>Tipo de Traslado</label>
+          <select id="tipoTraslado" onchange="schedSave()"><option value="">Seleccionar…</option><option>Permanente</option><option>Temporal</option></select>
+        </div>
+        <div class="field"><label>Hasta (si temporal)</label><input type="date" id="hastaTraslado" oninput="schedSave()"/></div>
+      </div>
+      <div class="form-row c1"><div class="field"><label>Nuevo Puesto / Rol en Destino</label><input type="text" placeholder="Dejar vacío si mantiene el mismo" id="nuevoPuesto" oninput="schedSave()"/></div></div>
+      <div class="form-row c1"><div class="field"><label>Motivo del Traslado</label><textarea id="motivoTraslado" rows="4" placeholder="Justificación…" oninput="schedSave()"></textarea></div></div>
+      <div class="form-row c1"><div class="field"><label>Observaciones</label><textarea id="obsTraslado" rows="2" placeholder="Información adicional…" oninput="schedSave()"></textarea></div></div>
+    </div>
+
+    <!-- FIRMAS -->
+    <div class="sec-title" style="margin-top:32px">Firmas de Autorización</div>
+    <div class="sigs-header">
+      <span class="sigs-progress">Firmas: <strong id="sigCount">0</strong> / 4 completadas</span>
+      <span style="font-size:11px;color:var(--muted)">Cada persona firma desde su dispositivo</span>
+    </div>
+    <div class="sigs-grid" id="sigsGrid"></div>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-ghost" onclick="resetForm()">Limpiar</button>
+    <button class="btn btn-gold" onclick="window.print()">Imprimir / PDF</button>
+    <button class="btn btn-primary" id="submitBtn" onclick="submitForm()">
+      <span class="lbl">Enviar requerimiento</span>
+      <div class="sp"></div>
+    </button>
+  </div>
+</div>
+
+<!-- SHARE MODAL -->
+<div class="overlay" id="shareOverlay" onclick="closeShareModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-hd">
+      <h2>Compartir para firma</h2>
+      <button onclick="closeShareModal()">✕</button>
+    </div>
+    <div class="modal-bd">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Compartí este link con quienes deben firmar. Cada uno puede firmar desde su dispositivo.</p>
+      <div class="link-box">
+        <input type="text" id="shareUrl" readonly style="font-size:12px"/>
+        <button class="btn btn-ghost" style="white-space:nowrap" onclick="copyLink()">Copiar</button>
+      </div>
+      <div class="share-btns">
+        <a id="waBtn" class="share-btn wa" target="_blank">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          WhatsApp
+        </a>
+        <button class="share-btn" onclick="shareEmail()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Email
+        </button>
+      </div>
+      <p class="copy-feedback" id="copyFeedback"></p>
+      <div class="roles-note">
+        <strong>Roles en este formulario:</strong><br>
+        Solicitante · Ejecutivo Responsable · RRHH / Legales · Autorización<br>
+        Cada persona abre el mismo link y firma su bloque. Las firmas se sincronizan automáticamente.
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══ CONFIGURACIÓN ═══════════════════════════════════════════════════════
+const SUPABASE_URL  = 'https://opudhfyutajkhufzuqxy.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9wdWRoZnl1dGFqa2h1Znp1cXh5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxODM3OTksImV4cCI6MjA5NDc1OTc5OX0.t4G0dakgazye_lENJXWJwnawLi0JRsVSsLkhnwP8CcA';
+const N8N_WEBHOOK   = 'https://kevin9705.app.n8n.cloud/webhook/rrhh-requerimiento';
+// ════════════════════════════════════════════════════════════════════════
+
+const SIG_ROLES = ['Solicitante','Ejecutivo Resp.','RRHH / Legales','Autorización'];
+let currentType  = 'baja';
+let draftId      = null;
+let saveTimer    = null;
+let pollTimer    = null;
+let sigStates    = [false,false,false,false]; // ¿tiene trazo el canvas?
+let sigLocked    = [false,false,false,false]; // ¿guardada en Supabase?
+let sigData      = [null,null,null,null];     // datos de firma confirmada
+
+// ─── SUPABASE REST ────────────────────────────────────────────────────
+const SB = {
+  headers:{ 'apikey':SUPABASE_ANON,'Content-Type':'application/json','Prefer':'return=representation' },
+  async get(path){ return (await fetch(SUPABASE_URL+'/rest/v1'+path,{headers:this.headers})).json(); },
+  async post(path,body){ return (await fetch(SUPABASE_URL+'/rest/v1'+path,{method:'POST',headers:this.headers,body:JSON.stringify(body)})).json(); },
+  async patch(path,body){ return (await fetch(SUPABASE_URL+'/rest/v1'+path,{method:'PATCH',headers:{...this.headers},body:JSON.stringify(body)})).json(); },
+};
+
+// ─── TYPE TOGGLE ─────────────────────────────────────────────────────
+function setType(t, noSave){
+  currentType=t;
+  document.getElementById('btnBaja').className='type-btn'+(t==='baja'?' ab':'');
+  document.getElementById('btnTrs').className='type-btn'+(t==='traslado'?' at':'');
+  const s=document.getElementById('stripe');
+  if(t==='baja'){
+    s.className='type-stripe ts-baja';
+    s.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> Requerimiento de Baja de Personal';
+    document.getElementById('secBaja').classList.add('on');
+    document.getElementById('secTrs').classList.remove('on');
+  }else{
+    s.className='type-stripe ts-trs';
+    s.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg> Requerimiento de Traslado de Personal';
+    document.getElementById('secBaja').classList.remove('on');
+    document.getElementById('secTrs').classList.add('on');
+  }
+  if(!noSave) schedSave();
+}
+
+// ─── DRAFT SAVE ───────────────────────────────────────────────────────
+function collectFormData(){
+  const d={tipo:currentType};
+  ['fecha','area','cc','solicitante','puestoSol','empNombre','empLegajo','empArea','empPuesto'].forEach(id=>d[id]=v(id));
+  if(currentType==='baja') ['motivoBaja','fechaBaja','resena','antecedentes','montoSc','montoCc'].forEach(id=>d[id]=v(id));
+  else ['areaDestino','ccDestino','fechaTraslado','tipoTraslado','hastaTraslado','nuevoPuesto','motivoTraslado','obsTraslado'].forEach(id=>d[id]=v(id));
+  return d;
+}
+
+function v(id){ const el=document.getElementById(id); return el?el.value:''; }
+
+function schedSave(){
+  clearTimeout(saveTimer);
+  if(!draftId) return; // auto-save only after draft is created
+  saveTimer=setTimeout(saveDraft, 2000);
+}
+
+async function saveDraft(){
+  const datos=collectFormData();
+  if(!draftId){
+    // CREATE new draft
+    const rows=await SB.post('/borradores',{datos,estado:'borrador'});
+    if(rows && rows[0]) {
+      draftId=rows[0].id;
+      updateURLParam(draftId);
+      updateSharePill(true);
+    }
+  } else {
+    await SB.patch(`/borradores?id=eq.${draftId}`,{datos});
+  }
+  flashSync();
+}
+
+async function ensureDraftAndShare(){
+  if(!draftId){
+    showToast('Guardando…','ok',1500);
+    const datos=collectFormData();
+    const rows=await SB.post('/borradores',{datos,estado:'borrador'});
+    if(rows && rows[0]){ draftId=rows[0].id; updateURLParam(draftId); updateSharePill(true); startPoll(); }
+    else{ showToast('Error al guardar. Verificá la configuración de Supabase.','err'); return false; }
+  } else {
+    await saveDraft();
+  }
+  return true;
+}
+
+function updateURLParam(id){
+  const url=new URL(window.location.href);
+  url.searchParams.set('id',id);
+  window.history.replaceState({},'',url.toString());
+}
+
+// ─── LOAD DRAFT ──────────────────────────────────────────────────────
+async function loadDraft(id){
+  document.getElementById('load-screen').classList.add('on');
+  try{
+    const rows=await SB.get(`/borradores?id=eq.${id}&limit=1`);
+    if(!rows||!rows[0]){ showToast('No se encontró el formulario.','err'); return; }
+    draftId=id;
+    const r=rows[0], d=r.datos||{};
+    // fill fields
+    setType(d.tipo||'baja',true);
+    const allFields=['fecha','area','cc','solicitante','puestoSol','empNombre','empLegajo','empArea','empPuesto',
+      'motivoBaja','fechaBaja','resena','antecedentes','montoSc','montoCc',
+      'areaDestino','ccDestino','fechaTraslado','tipoTraslado','hastaTraslado','nuevoPuesto','motivoTraslado','obsTraslado'];
+    allFields.forEach(fid=>{ const el=document.getElementById(fid); if(el&&d[fid]!==undefined) el.value=d[fid]; });
+    // load signatures
+    [0,1,2,3].forEach(i=>{
+      const sigKey='firma_'+i;
+      if(r[sigKey]){ applyRemoteSig(i,r[sigKey]); }
+    });
+    updateSharePill(true);
+    updateSigProgress();
+    startPoll();
+  }catch(e){
+    showToast('Error al cargar el formulario.','err');
+    console.error(e);
+  } finally {
+    document.getElementById('load-screen').classList.remove('on');
+  }
+}
+
+// ─── POLLING ─────────────────────────────────────────────────────────
+function startPoll(){
+  if(pollTimer) return;
+  pollTimer=setInterval(async()=>{
+    if(!draftId) return;
+    try{
+      const rows=await SB.get(`/borradores?id=eq.${draftId}&limit=1&select=datos,firma_0,firma_1,firma_2,firma_3`);
+      if(!rows||!rows[0]) return;
+      const r=rows[0];
+      // update form fields (only if not currently focused)
+      const focused=document.activeElement?.id;
+      const d=r.datos||{};
+      const allFields=['fecha','area','cc','solicitante','puestoSol','empNombre','empLegajo','empArea','empPuesto',
+        'motivoBaja','fechaBaja','resena','antecedentes','montoSc','montoCc',
+        'areaDestino','ccDestino','fechaTraslado','tipoTraslado','hastaTraslado','nuevoPuesto','motivoTraslado','obsTraslado'];
+      allFields.forEach(fid=>{
+        if(fid===focused) return;
+        const el=document.getElementById(fid);
+        if(el&&d[fid]!==undefined&&el.value!==d[fid]) el.value=d[fid];
+      });
+      if(d.tipo && d.tipo!==currentType) setType(d.tipo,true);
+      // update remote signatures
+      [0,1,2,3].forEach(i=>{
+        if(!sigLocked[i]&&r['firma_'+i]){ applyRemoteSig(i,r['firma_'+i]); flashSync(); }
+      });
+    }catch(e){ /* silent */ }
+  }, 5000);
+}
+
+function applyRemoteSig(i, sigObj){
+  if(sigLocked[i]) return;
+  sigLocked[i]=true;
+  sigData[i]=sigObj;
+  renderLockedSig(i, sigObj);
+  updateSigProgress();
+}
+
+// ─── SIGNATURE BLOCKS ─────────────────────────────────────────────────
+function buildSignatures(){
+  const g=document.getElementById('sigsGrid'); g.innerHTML='';
+  SIG_ROLES.forEach((_,i)=>{
+    const b=document.createElement('div');
+    b.className='sig-block pending';b.id='sigBlock-'+i;
+    b.innerHTML=`
+<div class="sig-role-bar">
+  <span class="sig-role-name">${SIG_ROLES[i]}</span>
+  <span class="sig-badge wait" id="sigBadge-${i}">Pendiente</span>
+</div>
+<div class="sig-canvas-area" id="sigCanvasArea-${i}">
+  <canvas id="sig-${i}"></canvas>
+  <div class="sig-hint" id="sigHint-${i}"><span>Dibujá tu firma aquí</span></div>
+  <button class="sig-clr" onclick="clearSig(${i})">✕</button>
+</div>
+<div class="sig-acl"><input type="text" placeholder="Tu nombre completo" id="acl-${i}"/></div>
+<button class="sig-confirm-btn" id="sigBtn-${i}" onclick="confirmSig(${i})">
+  <span class="lbl">✓ Confirmar mi firma</span>
+  <div class="spin"></div>
+</button>`;
+    g.appendChild(b);
+  });
+  SIG_ROLES.forEach((_,i)=>initCanvas(i));
+}
+
+function initCanvas(i){
+  const wrap=document.getElementById(`sigCanvasArea-${i}`);
+  const cv=document.getElementById(`sig-${i}`);
+  if(!wrap||!cv) return;
+  const dpr=window.devicePixelRatio||1;
+  const w=wrap.clientWidth||180;
+  cv.width=w*dpr; cv.height=80*dpr;
+  cv.style.width=w+'px'; cv.style.height='80px';
+  const ctx=cv.getContext('2d');
+  ctx.scale(dpr,dpr);
+  ctx.strokeStyle='#0f2240'; ctx.lineWidth=1.8; ctx.lineCap='round'; ctx.lineJoin='round';
+  let drawing=false, lx=0, ly=0;
+  function xy(e){ const r=cv.getBoundingClientRect(),src=e.touches?e.touches[0]:e; return{x:(src.clientX-r.left)*(cv.width/r.width)/dpr,y:(src.clientY-r.top)*(cv.height/r.height)/dpr}; }
+  cv.addEventListener('pointerdown',e=>{ e.preventDefault(); drawing=true; const p=xy(e); lx=p.x; ly=p.y; try{cv.setPointerCapture(e.pointerId);}catch(_){} });
+  cv.addEventListener('pointermove',e=>{ e.preventDefault(); if(!drawing)return; const p=xy(e); ctx.beginPath(); ctx.moveTo(lx,ly); ctx.lineTo(p.x,p.y); ctx.stroke(); lx=p.x; ly=p.y; if(!sigStates[i]){sigStates[i]=true; document.getElementById(`sigHint-${i}`).style.opacity='0';} });
+  cv.addEventListener('pointerup',()=>drawing=false);
+  cv.addEventListener('pointercancel',()=>drawing=false);
+}
+
+function clearSig(i){
+  if(sigLocked[i]) return;
+  const cv=document.getElementById(`sig-${i}`), ctx=cv.getContext('2d');
+  ctx.clearRect(0,0,cv.width,cv.height);
+  sigStates[i]=false;
+  document.getElementById(`sigHint-${i}`).style.opacity='1';
+}
+
+async function confirmSig(i){
+  if(sigLocked[i]) return;
+  const cv=document.getElementById(`sig-${i}`);
+  const acl=document.getElementById(`acl-${i}`).value.trim();
+  if(!sigStates[i]){ showToast('Primero dibujá tu firma en el recuadro.','err'); return; }
+  if(!acl){ showToast('Escribí tu nombre para aclarar la firma.','err'); return; }
+  if(!draftId){ showToast('Guardá el formulario primero con "Guardar y compartir".','err'); return; }
+
+  const btn=document.getElementById(`sigBtn-${i}`);
+  btn.classList.add('loading'); btn.disabled=true;
+  const imgData=cv.toDataURL('image/png');
+  const sigObj={ data:imgData, aclaracion:acl, firmado_en:new Date().toISOString() };
+  const patch={}; patch['firma_'+i]=sigObj;
+  try{
+    await SB.patch(`/borradores?id=eq.${draftId}`,patch);
+    sigLocked[i]=true; sigData[i]=sigObj;
+    renderLockedSig(i,sigObj);
+    updateSigProgress();
+    showToast(`Firma de ${SIG_ROLES[i]} confirmada ✓`,'ok');
+  }catch(e){ showToast('Error al guardar la firma.','err'); btn.classList.remove('loading'); btn.disabled=false; }
+}
+
+function renderLockedSig(i, sigObj){
+  const block=document.getElementById(`sigBlock-${i}`);
+  if(!block) return;
+  block.className='sig-block signed';
+  document.getElementById(`sigBadge-${i}`).className='sig-badge ok';
+  document.getElementById(`sigBadge-${i}`).textContent='Firmado ✓';
+  const canvasArea=document.getElementById(`sigCanvasArea-${i}`);
+  const ts=sigObj.firmado_en ? new Date(sigObj.firmado_en).toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'}) : '';
+  canvasArea.outerHTML=`<div class="sig-img-area"><img src="${sigObj.data}" alt="firma"/><span class="sig-ts">${ts}</span></div>`;
+  const aclDiv=block.querySelector('.sig-acl');
+  if(aclDiv) aclDiv.innerHTML=`<div class="sig-acl-text">${escHtml(sigObj.aclaracion)}</div>`;
+  const btn=document.getElementById(`sigBtn-${i}`);
+  if(btn) btn.outerHTML=`<div style="padding:6px;text-align:center;font-size:11px;color:var(--green);font-weight:600;background:#f4fbf8">✓ Firmado por ${escHtml(sigObj.aclaracion)}</div>`;
+}
+
+function updateSigProgress(){
+  const count=sigLocked.filter(Boolean).length;
+  document.getElementById('sigCount').textContent=count;
+  document.getElementById('sigProgress').style.width=(count/4*100)+'%';
+}
+
+// ─── SHARE MODAL ──────────────────────────────────────────────────────
+async function openShareModal(){
+  const ok=await ensureDraftAndShare();
+  if(!ok) return;
+  const url=window.location.href;
+  document.getElementById('shareUrl').value=url;
+  const msg=encodeURIComponent(`Requerimiento RRHH pendiente de firma:\n${url}`);
+  document.getElementById('waBtn').href=`https://wa.me/?text=${msg}`;
+  document.getElementById('shareOverlay').classList.add('open');
+}
+
+function closeShareModal(e){ if(e&&e.target!==document.getElementById('shareOverlay'))return; document.getElementById('shareOverlay').classList.remove('open'); }
+
+async function copyLink(){
+  const url=document.getElementById('shareUrl').value;
+  try{ await navigator.clipboard.writeText(url); }
+  catch(_){ document.getElementById('shareUrl').select(); document.execCommand('copy'); }
+  const fb=document.getElementById('copyFeedback'); fb.textContent='¡Link copiado!';
+  setTimeout(()=>fb.textContent='',2500);
+}
+
+function shareEmail(){
+  const url=document.getElementById('shareUrl').value;
+  window.open(`mailto:?subject=Requerimiento%20RRHH%20pendiente%20de%20firma&body=Por%20favor%20firmá%20el%20formulario%20adjunto:%0A${encodeURIComponent(url)}`);
+}
+
+function updateSharePill(saved){
+  const p=document.getElementById('sharePill');
+  if(saved){ p.className='share-pill saved'; document.getElementById('sharePillLabel').textContent='Compartir link de firma'; }
+}
+
+// ─── SUBMIT ───────────────────────────────────────────────────────────
+async function submitForm(){
+  if(!draftId){ showToast('Guardá el formulario primero.','err'); return; }
+  const btn=document.getElementById('submitBtn');
+  btn.classList.add('loading'); btn.disabled=true;
+  try{
+    const datos=collectFormData();
+    const payload={...datos, draftId, firmas:{
+      solicitante:sigData[0],ejecutivo:sigData[1],rrhh:sigData[2],autorizacion:sigData[3]
+    }};
+    const res=await fetch(N8N_WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    // mark draft as sent
+    await SB.patch(`/borradores?id=eq.${draftId}`,{estado:'enviado'});
+    const d=await res.json();
+    showToast(`✓ Requerimiento enviado. ID: ${d.id||'—'}`,'ok',6000);
+  }catch(e){ showToast('Error al enviar. Verificá el webhook de n8n.','err'); console.error(e); }
+  finally{ btn.classList.remove('loading'); btn.disabled=false; }
+}
+
+// ─── RESET ────────────────────────────────────────────────────────────
+function resetForm(){
+  if(!confirm('¿Crear un formulario nuevo? El actual se perderá.')) return;
+  window.location.href=window.location.pathname;
+}
+
+// ─── UTILS ────────────────────────────────────────────────────────────
+function flashSync(){
+  const d=document.getElementById('syncDot');
+  d.className='sync-dot pulse';
+  setTimeout(()=>d.className='sync-dot',1200);
+}
+function showToast(msg,type,dur=4000){
+  const t=document.getElementById('toast'); t.textContent=msg; t.className=`toast ${type} show`;
+  setTimeout(()=>t.className='toast',dur);
+}
+function escHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ─── INIT ─────────────────────────────────────────────────────────────
+window.addEventListener('load',()=>{
+  document.getElementById('fecha').value=new Date().toISOString().split('T')[0];
+  buildSignatures();
+  const params=new URLSearchParams(window.location.search);
+  const id=params.get('id');
+  if(id){ loadDraft(id); }
+});
+</script>
+</body>
+</html>
