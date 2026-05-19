@@ -82,24 +82,20 @@ body{font-family:'DM Sans',sans-serif;background:#f0f3f9;color:var(--text);min-h
 .sig-badge{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:20px}
 .sig-badge.ok{background:var(--green-bg);color:var(--green)}
 .sig-badge.wait{background:#f0f3f9;color:var(--muted)}
-/* canvas area */
 .sig-canvas-area{position:relative;background:#fafbfd;touch-action:none}
 .sig-canvas-area canvas{display:block;width:100%;height:80px;touch-action:none;cursor:crosshair}
 .sig-canvas-area .sig-hint{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;transition:opacity .2s}
 .sig-canvas-area .sig-hint span{font-size:11px;color:#bcc3d1;font-style:italic}
 .sig-canvas-area .sig-clr{position:absolute;top:4px;right:5px;border:none;background:rgba(255,255,255,.9);border-radius:3px;font-size:10px;color:var(--muted);cursor:pointer;padding:2px 6px;line-height:1.5;font-family:'DM Sans',sans-serif;z-index:2}
 .sig-canvas-area .sig-clr:hover{color:var(--danger)}
-/* signed image view */
 .sig-img-area{position:relative;background:#f4fbf8}
 .sig-img-area img{display:block;width:100%;height:80px;object-fit:contain}
 .sig-img-area .sig-ts{position:absolute;bottom:3px;right:5px;font-size:9px;color:rgba(0,0,0,.25)}
-/* aclaración */
 .sig-acl{border-top:1px solid var(--line)}
 .sig-acl input{border:none;padding:6px 10px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--text);background:var(--white);width:100%;text-align:center}
 .sig-acl input::placeholder{color:#bcc3d1;font-style:italic}
 .sig-acl input:focus{outline:none;background:#f8f9fc}
 .sig-acl .sig-acl-text{padding:6px 10px;font-size:12px;color:var(--muted);text-align:center;background:#f4fbf8}
-/* confirm btn */
 .sig-confirm-btn{border:none;background:var(--navy);color:#fff;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;padding:7px;cursor:pointer;width:100%;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:5px}
 .sig-confirm-btn:hover{background:var(--navy-mid)}
 .sig-confirm-btn:disabled{background:#b0b8c8;cursor:not-allowed}
@@ -122,7 +118,7 @@ body{font-family:'DM Sans',sans-serif;background:#f0f3f9;color:var(--text);min-h
 .btn.loading .sp{display:block}
 .btn.loading .lbl{display:none}
 
-/* ── SHARE MODAL ── */
+/* SHARE MODAL */
 .overlay{position:fixed;inset:0;background:rgba(15,34,64,.55);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
 .overlay.open{display:flex}
 .modal{background:var(--white);border-radius:12px;max-width:480px;width:100%;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.2)}
@@ -321,8 +317,8 @@ body{font-family:'DM Sans',sans-serif;background:#f0f3f9;color:var(--text);min-h
 const SUPABASE_URL  = 'https://opudhfyutajkhufzuqxy.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9wdWRoZnl1dGFqa2h1Znp1cXh5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxODM3OTksImV4cCI6MjA5NDc1OTc5OX0.t4G0dakgazye_lENJXWJwnawLi0JRsVSsLkhnwP8CcA';
 
-// ── REEMPLAZA con tu URL de Google Apps Script (ver instrucciones en README) ──
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwKcTG-czvxdAllQYRVfkGlNphETlw0OutcCpBOlkeOeHcumQV65ij1hkHbL4p_qWLScA/exec';
+// ► REEMPLAZÁ con la URL de tu nueva implementación de Apps Script
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzDZLsEBpik8kR367ppB_JbYH3loVOSBdWGLCJwOfnAs-6cOyNjKuLFKAFvofXtCsY2/exec';
 // ════════════════════════════════════════════════════════════════════════
 
 const SIG_ROLES = ['Solicitante','Ejecutivo Resp.','RRHH / Legales','Autorización'];
@@ -330,9 +326,9 @@ let currentType  = 'baja';
 let draftId      = null;
 let saveTimer    = null;
 let pollTimer    = null;
-let sigStates    = [false,false,false,false]; // ¿tiene trazo el canvas?
-let sigLocked    = [false,false,false,false]; // ¿guardada en Supabase?
-let sigData      = [null,null,null,null];     // datos de firma confirmada
+let sigStates    = [false,false,false,false];
+let sigLocked    = [false,false,false,false];
+let sigData      = [null,null,null,null];
 
 // ─── SUPABASE REST ────────────────────────────────────────────────────
 const SB = {
@@ -375,14 +371,13 @@ function v(id){ const el=document.getElementById(id); return el?el.value:''; }
 
 function schedSave(){
   clearTimeout(saveTimer);
-  if(!draftId) return; // auto-save only after draft is created
+  if(!draftId) return;
   saveTimer=setTimeout(saveDraft, 2000);
 }
 
 async function saveDraft(){
   const datos=collectFormData();
   if(!draftId){
-    // CREATE new draft
     const rows=await SB.post('/borradores',{datos,estado:'borrador'});
     if(rows && rows[0]) {
       draftId=rows[0].id;
@@ -422,13 +417,11 @@ async function loadDraft(id){
     if(!rows||!rows[0]){ showToast('No se encontró el formulario.','err'); return; }
     draftId=id;
     const r=rows[0], d=r.datos||{};
-    // fill fields
     setType(d.tipo||'baja',true);
     const allFields=['fecha','area','cc','solicitante','puestoSol','empNombre','empLegajo','empArea','empPuesto',
       'motivoBaja','fechaBaja','resena','antecedentes','montoSc','montoCc',
       'areaDestino','ccDestino','fechaTraslado','tipoTraslado','hastaTraslado','nuevoPuesto','motivoTraslado','obsTraslado'];
     allFields.forEach(fid=>{ const el=document.getElementById(fid); if(el&&d[fid]!==undefined) el.value=d[fid]; });
-    // load signatures
     [0,1,2,3].forEach(i=>{
       const sigKey='firma_'+i;
       if(r[sigKey]){ applyRemoteSig(i,r[sigKey]); }
@@ -453,7 +446,6 @@ function startPoll(){
       const rows=await SB.get(`/borradores?id=eq.${draftId}&limit=1&select=datos,firma_0,firma_1,firma_2,firma_3`);
       if(!rows||!rows[0]) return;
       const r=rows[0];
-      // update form fields (only if not currently focused)
       const focused=document.activeElement?.id;
       const d=r.datos||{};
       const allFields=['fecha','area','cc','solicitante','puestoSol','empNombre','empLegajo','empArea','empPuesto',
@@ -465,7 +457,6 @@ function startPoll(){
         if(el&&d[fid]!==undefined&&el.value!==d[fid]) el.value=d[fid];
       });
       if(d.tipo && d.tipo!==currentType) setType(d.tipo,true);
-      // update remote signatures
       [0,1,2,3].forEach(i=>{
         if(!sigLocked[i]&&r['firma_'+i]){ applyRemoteSig(i,r['firma_'+i]); flashSync(); }
       });
@@ -608,24 +599,30 @@ function updateSharePill(saved){
   if(saved){ p.className='share-pill saved'; document.getElementById('sharePillLabel').textContent='Compartir link de firma'; }
 }
 
-// ─── SUBMIT → genera PDF y lo envía a Google Drive via Apps Script ────
+// ─── SUBMIT — versión corregida con redirect:follow y mejor manejo de errores ───
 async function submitForm(){
-  if(!draftId){ showToast('Guardá el formulario primero con "Guardar y compartir".','err'); return; }
-  if(!APPS_SCRIPT_URL || APPS_SCRIPT_URL === ''){
-    showToast('Configurá la URL de Google Apps Script en el archivo.','err'); return;
+  if(!draftId){
+    showToast('Guardá el formulario primero con "Guardar y compartir".','err');
+    return;
   }
-  const btn=document.getElementById('submitBtn');
-  btn.classList.add('loading'); btn.disabled=true;
-  showToast('Generando PDF y subiendo a Drive…','ok',8000);
+  if(!APPS_SCRIPT_URL || APPS_SCRIPT_URL === '' || APPS_SCRIPT_URL.includes('TU_URL')){
+    showToast('Configurá la URL de Google Apps Script en el archivo.','err');
+    return;
+  }
 
-  try{
+  const btn = document.getElementById('submitBtn');
+  btn.classList.add('loading');
+  btn.disabled = true;
+  showToast('Generando PDF y subiendo a Drive…', 'ok', 8000);
+
+  try {
     // 1) Generar PDF en base64
     const pdfBase64 = await buildPDFBase64();
 
     // 2) Preparar payload
-    const datos = collectFormData();
-    const empNombre = datos.empNombre || 'empleado';
-    const fecha = datos.fecha || new Date().toISOString().split('T')[0];
+    const datos         = collectFormData();
+    const empNombre     = datos.empNombre || 'empleado';
+    const fecha         = datos.fecha || new Date().toISOString().split('T')[0];
     const nombreArchivo = `Requerimiento_${datos.tipo||'rrhh'}_${empNombre.replace(/\s+/g,'_')}_${fecha}.pdf`;
 
     const payload = {
@@ -633,36 +630,46 @@ async function submitForm(){
       draftId,
       nombreArchivo,
       pdfBase64,
-      firmas:{
-        solicitante: sigData[0] ? sigData[0].aclaracion : null,
-        ejecutivo:   sigData[1] ? sigData[1].aclaracion : null,
-        rrhh:        sigData[2] ? sigData[2].aclaracion : null,
-        autorizacion:sigData[3] ? sigData[3].aclaracion : null,
+      firmas: {
+        solicitante:  sigData[0] ? sigData[0].aclaracion : null,
+        ejecutivo:    sigData[1] ? sigData[1].aclaracion : null,
+        rrhh:         sigData[2] ? sigData[2].aclaracion : null,
+        autorizacion: sigData[3] ? sigData[3].aclaracion : null,
       }
     };
 
-    // 3) Enviar a Apps Script (no-cors no devuelve body, usamos mode:'cors')
+    // 3) Enviar a Apps Script
+    //    Content-Type: text/plain evita preflight CORS
+    //    redirect: 'follow' sigue la redirección 302 que hace Apps Script internamente
     const res = await fetch(APPS_SCRIPT_URL, {
-      method:'POST',
-      body: JSON.stringify(payload),
-      headers:{'Content-Type':'text/plain'} // Apps Script requiere text/plain para no-preflight
+      method:   'POST',
+      headers:  { 'Content-Type': 'text/plain;charset=utf-8' },
+      body:     JSON.stringify(payload),
+      redirect: 'follow',
     });
 
+    // 4) Leer respuesta
     const txt = await res.text();
     let resp = {};
-    try{ resp = JSON.parse(txt); }catch(_){}
+    try { resp = JSON.parse(txt); } catch(_) {}
 
-    if(resp.ok || res.ok){
-      await SB.patch(`/borradores?id=eq.${draftId}`,{estado:'enviado'});
-      showToast(`✓ PDF subido a Google Drive: ${nombreArchivo}`,'ok',7000);
+    if (resp.ok || res.ok) {
+      await SB.patch(`/borradores?id=eq.${draftId}`, { estado: 'enviado' });
+      showToast(`✓ PDF subido a Drive: ${resp.fileName || nombreArchivo}`, 'ok', 7000);
     } else {
-      throw new Error(resp.error || 'Respuesta inesperada del servidor');
+      throw new Error(resp.error || `HTTP ${res.status}`);
     }
-  }catch(e){
-    console.error(e);
-    showToast('Error al subir a Drive. Revisá la consola o la URL del Apps Script.','err');
-  }finally{
-    btn.classList.remove('loading'); btn.disabled=false;
+
+  } catch(e) {
+    console.error('submitForm error:', e);
+    if (e.message && e.message.toLowerCase().includes('failed to fetch')) {
+      showToast('No se pudo conectar con Apps Script. Verificá que esté publicado como "Aplicación web → Cualquier persona".', 'err');
+    } else {
+      showToast('Error al subir a Drive: ' + e.message, 'err');
+    }
+  } finally {
+    btn.classList.remove('loading');
+    btn.disabled = false;
   }
 }
 
@@ -749,7 +756,6 @@ async function buildPDFBase64(){
     doc.text('Documento generado por sistema RRHH — Uso interno',ML,291);
     doc.text(`Página ${p} de ${pages}`,W-MR,291,{align:'right'});
   }
-  // Retornar base64 sin el prefijo data:...
   return doc.output('datauristring').split(',')[1];
 }
 
@@ -757,6 +763,25 @@ async function buildPDFBase64(){
 function resetForm(){
   if(!confirm('¿Crear un formulario nuevo? El actual se perderá.')) return;
   window.location.href=window.location.pathname;
+}
+
+// ─── DESCARGAR PDF ────────────────────────────────────────────────────
+async function downloadPDF(){
+  const btn=document.getElementById('pdfBtn');
+  btn.classList.add('loading'); btn.disabled=true;
+  try{
+    const base64=await buildPDFBase64();
+    const empNombre=v('empNombre')||'empleado';
+    const fecha=v('fecha')||new Date().toISOString().split('T')[0];
+    const nombreArchivo=`Requerimiento_${currentType}_${empNombre.replace(/\s+/g,'_')}_${fecha}.pdf`;
+    const byteArr=Uint8Array.from(atob(base64),c=>c.charCodeAt(0));
+    const blob=new Blob([byteArr],{type:'application/pdf'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a'); a.href=url; a.download=nombreArchivo; a.click();
+    URL.revokeObjectURL(url);
+    showToast('PDF descargado correctamente','ok');
+  }catch(e){ showToast('Error al generar el PDF','err'); console.error(e); }
+  finally{ btn.classList.remove('loading'); btn.disabled=false; }
 }
 
 // ─── UTILS ────────────────────────────────────────────────────────────
@@ -770,26 +795,6 @@ function showToast(msg,type,dur=4000){
   setTimeout(()=>t.className='toast',dur);
 }
 function escHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-// ─── DESCARGAR PDF ────────────────────────────────────────────────────
-async function downloadPDF(){
-  const btn=document.getElementById('pdfBtn');
-  btn.classList.add('loading'); btn.disabled=true;
-  try{
-    const base64=await buildPDFBase64();
-    const empNombre=v('empNombre')||'empleado';
-    const fecha=v('fecha')||new Date().toISOString().split('T')[0];
-    const nombreArchivo=`Requerimiento_${currentType}_${empNombre.replace(/\s+/g,'_')}_${fecha}.pdf`;
-    // convertir base64 a blob y descargar
-    const byteArr=Uint8Array.from(atob(base64),c=>c.charCodeAt(0));
-    const blob=new Blob([byteArr],{type:'application/pdf'});
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement('a'); a.href=url; a.download=nombreArchivo; a.click();
-    URL.revokeObjectURL(url);
-    showToast('PDF descargado correctamente','ok');
-  }catch(e){ showToast('Error al generar el PDF','err'); console.error(e); }
-  finally{ btn.classList.remove('loading'); btn.disabled=false; }
-}
 
 window.addEventListener('load',()=>{
   document.getElementById('fecha').value=new Date().toISOString().split('T')[0];
