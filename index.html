@@ -17,33 +17,23 @@
 }
 body{font-family:'DM Sans',sans-serif;background:#f0f3f9;color:var(--text);min-height:100vh;padding:40px 20px}
 .page{max-width:860px;margin:0 auto;background:var(--white);box-shadow:0 2px 24px rgba(15,34,64,.11);border-radius:12px;overflow:hidden}
-
-/* NAV */
 .header{background:var(--navy);padding:22px 40px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .org-name{font-family:'Playfair Display',serif;font-size:11px;font-weight:500;letter-spacing:.18em;color:rgba(255,255,255,.5);text-transform:uppercase;display:block;margin-bottom:3px}
 .doc-title{font-family:'Playfair Display',serif;font-size:21px;color:#fff;font-weight:600}
 .header-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
-
-/* SHARE STATUS PILL */
 .share-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.07em;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .2s}
 .share-pill.new{background:rgba(255,255,255,.15);color:rgba(255,255,255,.8)}
 .share-pill.new:hover{background:rgba(255,255,255,.22)}
 .share-pill.saved{background:#3fc8a8;color:#04342c}
 .share-pill.saved:hover{background:#5dd4b6}
 .share-pill svg{flex-shrink:0}
-
-/* PROGRESS BAR */
 .progress-bar{height:3px;background:rgba(255,255,255,.12)}
 .progress-fill{height:3px;background:#3fc8a8;transition:width .5s}
-
-/* TYPE BAR */
 .type-bar{background:var(--navy-mid);padding:0 40px;display:flex}
 .type-btn{flex:1;max-width:200px;border:none;background:transparent;color:rgba(255,255,255,.5);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;letter-spacing:.05em;padding:13px 20px;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;text-transform:uppercase}
 .type-btn:hover{color:rgba(255,255,255,.8)}
 .type-btn.ab{color:#fff;border-bottom-color:#e05c4b}
 .type-btn.at{color:#fff;border-bottom-color:#3fc8a8}
-
-/* BODY */
 .body{padding:34px 40px}
 .type-stripe{border-radius:var(--radius);padding:10px 16px;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:26px;display:flex;align-items:center;gap:8px}
 .ts-baja{background:var(--danger-bg);color:var(--danger)}
@@ -68,8 +58,6 @@ body{font-family:'DM Sans',sans-serif;background:#f0f3f9;color:var(--text);min-h
 .meta-row{display:grid;grid-template-columns:150px 1fr 200px;gap:22px;margin-bottom:24px;align-items:end}
 .section-baja,.section-trs{display:none}
 .section-baja.on,.section-trs.on{display:block}
-
-/* ── FIRMA BLOCKS ── */
 .sigs-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .sigs-progress{font-size:12px;color:var(--muted)}
 .sigs-progress strong{color:var(--green)}
@@ -103,8 +91,6 @@ body{font-family:'DM Sans',sans-serif;background:#f0f3f9;color:var(--text);min-h
 .sig-confirm-btn.loading .spin{display:block}
 .sig-confirm-btn.loading .lbl{display:none}
 @keyframes spin{to{transform:rotate(360deg)}}
-
-/* ACTIONS */
 .actions{display:flex;justify-content:flex-end;gap:10px;padding:24px 40px;border-top:1px solid var(--line);background:#f8f9fc;flex-wrap:wrap}
 .btn{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;letter-spacing:.04em;padding:9px 20px;border-radius:var(--radius);border:1px solid transparent;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:7px}
 .btn:disabled{opacity:.45;cursor:not-allowed}
@@ -117,8 +103,6 @@ body{font-family:'DM Sans',sans-serif;background:#f0f3f9;color:var(--text);min-h
 .btn .sp{width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
 .btn.loading .sp{display:block}
 .btn.loading .lbl{display:none}
-
-/* SHARE MODAL */
 .overlay{position:fixed;inset:0;background:rgba(15,34,64,.55);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
 .overlay.open{display:flex}
 .modal{background:var(--white);border-radius:12px;max-width:480px;width:100%;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.2)}
@@ -137,36 +121,26 @@ body{font-family:'DM Sans',sans-serif;background:#f0f3f9;color:var(--text);min-h
 .copy-feedback{font-size:12px;color:var(--green);text-align:center;height:16px;transition:opacity .3s}
 .roles-note{font-size:12px;color:var(--muted);line-height:1.6;border-top:1px solid var(--line);padding-top:14px;margin-top:4px}
 .roles-note strong{color:var(--text)}
-
-/* TOAST */
 .toast{position:fixed;bottom:24px;right:24px;padding:12px 18px;border-radius:8px;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;box-shadow:0 4px 20px rgba(0,0,0,.15);transform:translateY(50px);opacity:0;transition:all .3s;z-index:300;max-width:320px;line-height:1.5;pointer-events:none}
 .toast.show{transform:translateY(0);opacity:1}
 .toast.ok{background:var(--green);color:#fff}
 .toast.err{background:var(--danger);color:#fff}
-
-/* SYNC INDICATOR */
 .sync-dot{width:7px;height:7px;border-radius:50%;background:#3fc8a8;display:inline-block;margin-right:5px;opacity:0;transition:opacity .3s}
 .sync-dot.pulse{opacity:1;animation:pulse 1s ease-in-out}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.4)}}
-
-/* LOADING SCREEN */
 #load-screen{position:fixed;inset:0;background:#f0f3f9;z-index:500;display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px}
 #load-screen.on{display:flex}
 #load-screen .sp{width:32px;height:32px;border:3px solid rgba(15,34,64,.15);border-top-color:var(--navy);border-radius:50%;animation:spin .8s linear infinite}
 #load-screen p{font-size:14px;color:var(--muted)}
-
 @media print{body{background:white;padding:0}.page{box-shadow:none;border-radius:0}.type-bar,.actions,.share-pill,.progress-bar,.sig-confirm-btn,.sig-clr,.toast,.overlay,#load-screen{display:none!important}.section-baja,.section-trs{display:block!important}.section-baja:not(.on),.section-trs:not(.on){display:none!important}.sig-canvas-area{display:none}.sig-block.pending .sig-canvas-area{display:block}}
 @media(max-width:680px){.body{padding:20px}.header{padding:16px 20px}.actions{padding:16px 20px;flex-wrap:wrap}.sigs-grid{grid-template-columns:1fr 1fr}.montos-grid{grid-template-columns:1fr}.meta-row{grid-template-columns:1fr}.c3{grid-template-columns:1fr 1fr}.c2{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
-<!-- LOADING -->
 <div id="load-screen"><div class="sp"></div><p>Cargando formulario…</p></div>
 
 <div class="page" id="thePage">
-
-  <!-- HEADER -->
   <div class="header">
     <div>
       <span class="org-name">Gerencia de Recursos Humanos</span>
@@ -182,19 +156,16 @@ body{font-family:'DM Sans',sans-serif;background:#f0f3f9;color:var(--text);min-h
   </div>
   <div class="progress-bar"><div class="progress-fill" id="sigProgress" style="width:0%"></div></div>
 
-  <!-- TYPE TABS -->
   <div class="type-bar">
     <button class="type-btn ab" id="btnBaja" onclick="setType('baja')">✕ &nbsp;Baja de personal</button>
     <button class="type-btn" id="btnTrs" onclick="setType('traslado')">⇄ &nbsp;Traslado</button>
   </div>
 
-  <!-- FORM -->
   <div class="body">
     <div class="type-stripe ts-baja" id="stripe">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-      <span id="stripeText">Requerimiento de Baja de Personal</span>
+      Requerimiento de Baja de Personal
     </div>
-
     <div class="meta-row">
       <div class="field"><label>Fecha</label><input type="date" id="fecha" oninput="schedSave()"/></div>
       <div class="field"><label>Área</label><input type="text" placeholder="Nombre del área" id="area" oninput="schedSave()"/></div>
@@ -213,7 +184,6 @@ body{font-family:'DM Sans',sans-serif;background:#f0f3f9;color:var(--text);min-h
       <div class="field"><label>Puesto</label><input type="text" placeholder="Cargo" id="empPuesto" oninput="schedSave()"/></div>
     </div>
 
-    <!-- BAJA -->
     <div class="section-baja on" id="secBaja">
       <div class="sec-title">Información de Baja</div>
       <div class="form-row c2">
@@ -236,7 +206,6 @@ body{font-family:'DM Sans',sans-serif;background:#f0f3f9;color:var(--text);min-h
       </div>
     </div>
 
-    <!-- TRASLADO -->
     <div class="section-trs" id="secTrs">
       <div class="sec-title">Información del Traslado</div>
       <div class="form-row c2">
@@ -255,7 +224,6 @@ body{font-family:'DM Sans',sans-serif;background:#f0f3f9;color:var(--text);min-h
       <div class="form-row c1"><div class="field"><label>Observaciones</label><textarea id="obsTraslado" rows="2" placeholder="Información adicional…" oninput="schedSave()"></textarea></div></div>
     </div>
 
-    <!-- FIRMAS -->
     <div class="sec-title" style="margin-top:32px">Firmas de Autorización</div>
     <div class="sigs-header">
       <span class="sigs-progress">Firmas: <strong id="sigCount">0</strong> / 4 completadas</span>
@@ -287,7 +255,7 @@ body{font-family:'DM Sans',sans-serif;background:#f0f3f9;color:var(--text);min-h
     <div class="modal-bd">
       <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Compartí este link con quienes deben firmar. Cada uno puede firmar desde su dispositivo.</p>
       <div class="link-box">
-        <input type="text" id="share" readonly style="font-size:12px"/>
+        <input type="text" id="shareUrl" readonly style="font-size:12px"/>
         <button class="btn btn-ghost" style="white-space:nowrap" onclick="copyLink()">Copiar</button>
       </div>
       <div class="share-btns">
@@ -313,33 +281,25 @@ body{font-family:'DM Sans',sans-serif;background:#f0f3f9;color:var(--text);min-h
 <div class="toast" id="toast"></div>
 
 <script>
-// ══ CONFIGURACIÓN ═══════════════════════════════════════════════════════
+// ══ CONFIGURACIÓN ══════════════════════════════════════════════════════
 const SUPABASE_URL  = 'https://opudhfyutajkhufzuqxy.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9wdWRoZnl1dGFqa2h1Znp1cXh5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxODM3OTksImV4cCI6MjA5NDc1OTc5OX0.t4G0dakgazye_lENJXWJwnawLi0JRsVSsLkhnwP8CcA';
-
-// ► REEMPLAZÁ con la URL de tu nueva implementación de Apps Script
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyho3cUbl7XPT7eVnYiEjk4oORAY0xq_NHXyRsmvfuy-Seq4ioHaRuN6tXS3t5mXHwJ/exec';
-// ════════════════════════════════════════════════════════════════════════
+// ► Pegá acá la URL /exec de tu Apps Script
+const APPS_SCRIPT_URL = 'REEMPLAZAR_CON_TU_URL_EXEC';
+// ═══════════════════════════════════════════════════════════════════════
 
 const SIG_ROLES = ['Solicitante','Ejecutivo Resp.','RRHH / Legales','Autorización'];
-let currentType  = 'baja';
-let draftId      = null;
-let saveTimer    = null;
-let pollTimer    = null;
-let sigStates    = [false,false,false,false];
-let sigLocked    = [false,false,false,false];
-let sigData      = [null,null,null,null];
+let currentType='baja', draftId=null, saveTimer=null, pollTimer=null;
+let sigStates=[false,false,false,false], sigLocked=[false,false,false,false], sigData=[null,null,null,null];
 
-// ─── SUPABASE REST ────────────────────────────────────────────────────
-const SB = {
-  headers:{ 'apikey':SUPABASE_ANON,'Content-Type':'application/json','Prefer':'return=representation' },
-  async get(path){ return (await fetch(SUPABASE_URL+'/rest/v1'+path,{headers:this.headers})).json(); },
-  async post(path,body){ return (await fetch(SUPABASE_URL+'/rest/v1'+path,{method:'POST',headers:this.headers,body:JSON.stringify(body)})).json(); },
-  async patch(path,body){ return (await fetch(SUPABASE_URL+'/rest/v1'+path,{method:'PATCH',headers:{...this.headers},body:JSON.stringify(body)})).json(); },
+const SB={
+  headers:{'apikey':SUPABASE_ANON,'Content-Type':'application/json','Prefer':'return=representation'},
+  async get(p){return(await fetch(SUPABASE_URL+'/rest/v1'+p,{headers:this.headers})).json();},
+  async post(p,b){return(await fetch(SUPABASE_URL+'/rest/v1'+p,{method:'POST',headers:this.headers,body:JSON.stringify(b)})).json();},
+  async patch(p,b){return(await fetch(SUPABASE_URL+'/rest/v1'+p,{method:'PATCH',headers:{...this.headers},body:JSON.stringify(b)})).json();},
 };
 
-// ─── TYPE TOGGLE ─────────────────────────────────────────────────────
-function setType(t, noSave){
+function setType(t,noSave){
   currentType=t;
   document.getElementById('btnBaja').className='type-btn'+(t==='baja'?' ab':'');
   document.getElementById('btnTrs').className='type-btn'+(t==='traslado'?' at':'');
@@ -355,38 +315,25 @@ function setType(t, noSave){
     document.getElementById('secBaja').classList.remove('on');
     document.getElementById('secTrs').classList.add('on');
   }
-  if(!noSave) schedSave();
+  if(!noSave)schedSave();
 }
 
-// ─── DRAFT SAVE ───────────────────────────────────────────────────────
 function collectFormData(){
   const d={tipo:currentType};
   ['fecha','area','cc','solicitante','puestoSol','empNombre','empLegajo','empArea','empPuesto'].forEach(id=>d[id]=v(id));
-  if(currentType==='baja') ['motivoBaja','fechaBaja','resena','antecedentes','montoSc','montoCc'].forEach(id=>d[id]=v(id));
-  else ['areaDestino','ccDestino','fechaTraslado','tipoTraslado','hastaTraslado','nuevoPuesto','motivoTraslado','obsTraslado'].forEach(id=>d[id]=v(id));
+  if(currentType==='baja')['motivoBaja','fechaBaja','resena','antecedentes','montoSc','montoCc'].forEach(id=>d[id]=v(id));
+  else['areaDestino','ccDestino','fechaTraslado','tipoTraslado','hastaTraslado','nuevoPuesto','motivoTraslado','obsTraslado'].forEach(id=>d[id]=v(id));
   return d;
 }
-
-function v(id){ const el=document.getElementById(id); return el?el.value:''; }
-
-function schedSave(){
-  clearTimeout(saveTimer);
-  if(!draftId) return;
-  saveTimer=setTimeout(saveDraft, 2000);
-}
+function v(id){const el=document.getElementById(id);return el?el.value:'';}
+function schedSave(){clearTimeout(saveTimer);if(!draftId)return;saveTimer=setTimeout(saveDraft,2000);}
 
 async function saveDraft(){
   const datos=collectFormData();
   if(!draftId){
     const rows=await SB.post('/borradores',{datos,estado:'borrador'});
-    if(rows && rows[0]) {
-      draftId=rows[0].id;
-      updateURLParam(draftId);
-      updateSharePill(true);
-    }
-  } else {
-    await SB.patch(`/borradores?id=eq.${draftId}`,{datos});
-  }
+    if(rows&&rows[0]){draftId=rows[0].id;updateURLParam(draftId);updateSharePill(true);}
+  }else{await SB.patch(`/borradores?id=eq.${draftId}`,{datos});}
   flashSync();
 }
 
@@ -395,171 +342,111 @@ async function ensureDraftAndShare(){
     showToast('Guardando…','ok',1500);
     const datos=collectFormData();
     const rows=await SB.post('/borradores',{datos,estado:'borrador'});
-    if(rows && rows[0]){ draftId=rows[0].id; updateURLParam(draftId); updateSharePill(true); startPoll(); }
-    else{ showToast('Error al guardar. Verificá la configuración de Supabase.','err'); return false; }
-  } else {
-    await saveDraft();
-  }
+    if(rows&&rows[0]){draftId=rows[0].id;updateURLParam(draftId);updateSharePill(true);startPoll();}
+    else{showToast('Error al guardar. Verificá la configuración de Supabase.','err');return false;}
+  }else{await saveDraft();}
   return true;
 }
 
-function updateURLParam(id){
-  const url=new URL(window.location.href);
-  url.searchParams.set('id',id);
-  window.history.replaceState({},'',url.toString());
-}
+function updateURLParam(id){const url=new URL(window.location.href);url.searchParams.set('id',id);window.history.replaceState({},'',url.toString());}
 
-// ─── LOAD DRAFT ──────────────────────────────────────────────────────
 async function loadDraft(id){
   document.getElementById('load-screen').classList.add('on');
   try{
     const rows=await SB.get(`/borradores?id=eq.${id}&limit=1`);
-    if(!rows||!rows[0]){ showToast('No se encontró el formulario.','err'); return; }
-    draftId=id;
-    const r=rows[0], d=r.datos||{};
+    if(!rows||!rows[0]){showToast('No se encontró el formulario.','err');return;}
+    draftId=id;const r=rows[0],d=r.datos||{};
     setType(d.tipo||'baja',true);
-    const allFields=['fecha','area','cc','solicitante','puestoSol','empNombre','empLegajo','empArea','empPuesto',
-      'motivoBaja','fechaBaja','resena','antecedentes','montoSc','montoCc',
-      'areaDestino','ccDestino','fechaTraslado','tipoTraslado','hastaTraslado','nuevoPuesto','motivoTraslado','obsTraslado'];
-    allFields.forEach(fid=>{ const el=document.getElementById(fid); if(el&&d[fid]!==undefined) el.value=d[fid]; });
-    [0,1,2,3].forEach(i=>{
-      const sigKey='firma_'+i;
-      if(r[sigKey]){ applyRemoteSig(i,r[sigKey]); }
-    });
-    updateSharePill(true);
-    updateSigProgress();
-    startPoll();
-  }catch(e){
-    showToast('Error al cargar el formulario.','err');
-    console.error(e);
-  } finally {
-    document.getElementById('load-screen').classList.remove('on');
-  }
+    ['fecha','area','cc','solicitante','puestoSol','empNombre','empLegajo','empArea','empPuesto',
+     'motivoBaja','fechaBaja','resena','antecedentes','montoSc','montoCc',
+     'areaDestino','ccDestino','fechaTraslado','tipoTraslado','hastaTraslado','nuevoPuesto','motivoTraslado','obsTraslado']
+    .forEach(fid=>{const el=document.getElementById(fid);if(el&&d[fid]!==undefined)el.value=d[fid];});
+    [0,1,2,3].forEach(i=>{if(r['firma_'+i])applyRemoteSig(i,r['firma_'+i]);});
+    updateSharePill(true);updateSigProgress();startPoll();
+  }catch(e){showToast('Error al cargar el formulario.','err');console.error(e);}
+  finally{document.getElementById('load-screen').classList.remove('on');}
 }
 
-// ─── POLLING ─────────────────────────────────────────────────────────
 function startPoll(){
-  if(pollTimer) return;
+  if(pollTimer)return;
   pollTimer=setInterval(async()=>{
-    if(!draftId) return;
+    if(!draftId)return;
     try{
       const rows=await SB.get(`/borradores?id=eq.${draftId}&limit=1&select=datos,firma_0,firma_1,firma_2,firma_3`);
-      if(!rows||!rows[0]) return;
-      const r=rows[0];
-      const focused=document.activeElement?.id;
-      const d=r.datos||{};
-      const allFields=['fecha','area','cc','solicitante','puestoSol','empNombre','empLegajo','empArea','empPuesto',
-        'motivoBaja','fechaBaja','resena','antecedentes','montoSc','montoCc',
-        'areaDestino','ccDestino','fechaTraslado','tipoTraslado','hastaTraslado','nuevoPuesto','motivoTraslado','obsTraslado'];
-      allFields.forEach(fid=>{
-        if(fid===focused) return;
-        const el=document.getElementById(fid);
-        if(el&&d[fid]!==undefined&&el.value!==d[fid]) el.value=d[fid];
-      });
-      if(d.tipo && d.tipo!==currentType) setType(d.tipo,true);
-      [0,1,2,3].forEach(i=>{
-        if(!sigLocked[i]&&r['firma_'+i]){ applyRemoteSig(i,r['firma_'+i]); flashSync(); }
-      });
-    }catch(e){ /* silent */ }
-  }, 5000);
+      if(!rows||!rows[0])return;
+      const r=rows[0],d=r.datos||{},focused=document.activeElement?.id;
+      ['fecha','area','cc','solicitante','puestoSol','empNombre','empLegajo','empArea','empPuesto',
+       'motivoBaja','fechaBaja','resena','antecedentes','montoSc','montoCc',
+       'areaDestino','ccDestino','fechaTraslado','tipoTraslado','hastaTraslado','nuevoPuesto','motivoTraslado','obsTraslado']
+      .forEach(fid=>{if(fid===focused)return;const el=document.getElementById(fid);if(el&&d[fid]!==undefined&&el.value!==d[fid])el.value=d[fid];});
+      if(d.tipo&&d.tipo!==currentType)setType(d.tipo,true);
+      [0,1,2,3].forEach(i=>{if(!sigLocked[i]&&r['firma_'+i]){applyRemoteSig(i,r['firma_'+i]);flashSync();}});
+    }catch(e){}
+  },5000);
 }
 
-function applyRemoteSig(i, sigObj){
-  if(sigLocked[i]) return;
-  sigLocked[i]=true;
-  sigData[i]=sigObj;
-  renderLockedSig(i, sigObj);
-  updateSigProgress();
-}
+function applyRemoteSig(i,sigObj){if(sigLocked[i])return;sigLocked[i]=true;sigData[i]=sigObj;renderLockedSig(i,sigObj);updateSigProgress();}
 
-// ─── SIGNATURE BLOCKS ─────────────────────────────────────────────────
 function buildSignatures(){
-  const g=document.getElementById('sigsGrid'); g.innerHTML='';
+  const g=document.getElementById('sigsGrid');g.innerHTML='';
   SIG_ROLES.forEach((_,i)=>{
-    const b=document.createElement('div');
-    b.className='sig-block pending';b.id='sigBlock-'+i;
-    b.innerHTML=`
-<div class="sig-role-bar">
-  <span class="sig-role-name">${SIG_ROLES[i]}</span>
-  <span class="sig-badge wait" id="sigBadge-${i}">Pendiente</span>
-</div>
-<div class="sig-canvas-area" id="sigCanvasArea-${i}">
-  <canvas id="sig-${i}"></canvas>
-  <div class="sig-hint" id="sigHint-${i}"><span>Dibujá tu firma aquí</span></div>
-  <button class="sig-clr" onclick="clearSig(${i})">✕</button>
-</div>
-<div class="sig-acl"><input type="text" placeholder="Tu nombre completo" id="acl-${i}"/></div>
-<button class="sig-confirm-btn" id="sigBtn-${i}" onclick="confirmSig(${i})">
-  <span class="lbl">✓ Confirmar mi firma</span>
-  <div class="spin"></div>
-</button>`;
+    const b=document.createElement('div');b.className='sig-block pending';b.id='sigBlock-'+i;
+    b.innerHTML=`<div class="sig-role-bar"><span class="sig-role-name">${SIG_ROLES[i]}</span><span class="sig-badge wait" id="sigBadge-${i}">Pendiente</span></div><div class="sig-canvas-area" id="sigCanvasArea-${i}"><canvas id="sig-${i}"></canvas><div class="sig-hint" id="sigHint-${i}"><span>Dibujá tu firma aquí</span></div><button class="sig-clr" onclick="clearSig(${i})">✕</button></div><div class="sig-acl"><input type="text" placeholder="Tu nombre completo" id="acl-${i}"/></div><button class="sig-confirm-btn" id="sigBtn-${i}" onclick="confirmSig(${i})"><span class="lbl">✓ Confirmar mi firma</span><div class="spin"></div></button>`;
     g.appendChild(b);
   });
   SIG_ROLES.forEach((_,i)=>initCanvas(i));
 }
 
 function initCanvas(i){
-  const wrap=document.getElementById(`sigCanvasArea-${i}`);
-  const cv=document.getElementById(`sig-${i}`);
-  if(!wrap||!cv) return;
-  const dpr=window.devicePixelRatio||1;
-  const w=wrap.clientWidth||180;
-  cv.width=w*dpr; cv.height=80*dpr;
-  cv.style.width=w+'px'; cv.style.height='80px';
-  const ctx=cv.getContext('2d');
-  ctx.scale(dpr,dpr);
-  ctx.strokeStyle='#0f2240'; ctx.lineWidth=1.8; ctx.lineCap='round'; ctx.lineJoin='round';
-  let drawing=false, lx=0, ly=0;
-  function xy(e){ const r=cv.getBoundingClientRect(),src=e.touches?e.touches[0]:e; return{x:(src.clientX-r.left)*(cv.width/r.width)/dpr,y:(src.clientY-r.top)*(cv.height/r.height)/dpr}; }
-  cv.addEventListener('pointerdown',e=>{ e.preventDefault(); drawing=true; const p=xy(e); lx=p.x; ly=p.y; try{cv.setPointerCapture(e.pointerId);}catch(_){} });
-  cv.addEventListener('pointermove',e=>{ e.preventDefault(); if(!drawing)return; const p=xy(e); ctx.beginPath(); ctx.moveTo(lx,ly); ctx.lineTo(p.x,p.y); ctx.stroke(); lx=p.x; ly=p.y; if(!sigStates[i]){sigStates[i]=true; document.getElementById(`sigHint-${i}`).style.opacity='0';} });
+  const wrap=document.getElementById(`sigCanvasArea-${i}`),cv=document.getElementById(`sig-${i}`);
+  if(!wrap||!cv)return;
+  const dpr=window.devicePixelRatio||1,w=wrap.clientWidth||180;
+  cv.width=w*dpr;cv.height=80*dpr;cv.style.width=w+'px';cv.style.height='80px';
+  const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);
+  ctx.strokeStyle='#0f2240';ctx.lineWidth=1.8;ctx.lineCap='round';ctx.lineJoin='round';
+  let drawing=false,lx=0,ly=0;
+  function xy(e){const r=cv.getBoundingClientRect(),src=e.touches?e.touches[0]:e;return{x:(src.clientX-r.left)*(cv.width/r.width)/dpr,y:(src.clientY-r.top)*(cv.height/r.height)/dpr};}
+  cv.addEventListener('pointerdown',e=>{e.preventDefault();drawing=true;const p=xy(e);lx=p.x;ly=p.y;try{cv.setPointerCapture(e.pointerId);}catch(_){}});
+  cv.addEventListener('pointermove',e=>{e.preventDefault();if(!drawing)return;const p=xy(e);ctx.beginPath();ctx.moveTo(lx,ly);ctx.lineTo(p.x,p.y);ctx.stroke();lx=p.x;ly=p.y;if(!sigStates[i]){sigStates[i]=true;document.getElementById(`sigHint-${i}`).style.opacity='0';}});
   cv.addEventListener('pointerup',()=>drawing=false);
   cv.addEventListener('pointercancel',()=>drawing=false);
 }
 
 function clearSig(i){
-  if(sigLocked[i]) return;
-  const cv=document.getElementById(`sig-${i}`), ctx=cv.getContext('2d');
-  ctx.clearRect(0,0,cv.width,cv.height);
-  sigStates[i]=false;
+  if(sigLocked[i])return;
+  const cv=document.getElementById(`sig-${i}`),ctx=cv.getContext('2d');
+  ctx.clearRect(0,0,cv.width,cv.height);sigStates[i]=false;
   document.getElementById(`sigHint-${i}`).style.opacity='1';
 }
 
 async function confirmSig(i){
-  if(sigLocked[i]) return;
-  const cv=document.getElementById(`sig-${i}`);
-  const acl=document.getElementById(`acl-${i}`).value.trim();
-  if(!sigStates[i]){ showToast('Primero dibujá tu firma en el recuadro.','err'); return; }
-  if(!acl){ showToast('Escribí tu nombre para aclarar la firma.','err'); return; }
-  if(!draftId){ showToast('Guardá el formulario primero con "Guardar y compartir".','err'); return; }
-
-  const btn=document.getElementById(`sigBtn-${i}`);
-  btn.classList.add('loading'); btn.disabled=true;
-  const imgData=cv.toDataURL('image/png');
-  const sigObj={ data:imgData, aclaracion:acl, firmado_en:new Date().toISOString() };
-  const patch={}; patch['firma_'+i]=sigObj;
+  if(sigLocked[i])return;
+  const cv=document.getElementById(`sig-${i}`),acl=document.getElementById(`acl-${i}`).value.trim();
+  if(!sigStates[i]){showToast('Primero dibujá tu firma en el recuadro.','err');return;}
+  if(!acl){showToast('Escribí tu nombre para aclarar la firma.','err');return;}
+  if(!draftId){showToast('Guardá el formulario primero con "Guardar y compartir".','err');return;}
+  const btn=document.getElementById(`sigBtn-${i}`);btn.classList.add('loading');btn.disabled=true;
+  const sigObj={data:cv.toDataURL('image/png'),aclaracion:acl,firmado_en:new Date().toISOString()};
+  const patch={};patch['firma_'+i]=sigObj;
   try{
     await SB.patch(`/borradores?id=eq.${draftId}`,patch);
-    sigLocked[i]=true; sigData[i]=sigObj;
-    renderLockedSig(i,sigObj);
-    updateSigProgress();
+    sigLocked[i]=true;sigData[i]=sigObj;renderLockedSig(i,sigObj);updateSigProgress();
     showToast(`Firma de ${SIG_ROLES[i]} confirmada ✓`,'ok');
-  }catch(e){ showToast('Error al guardar la firma.','err'); btn.classList.remove('loading'); btn.disabled=false; }
+  }catch(e){showToast('Error al guardar la firma.','err');btn.classList.remove('loading');btn.disabled=false;}
 }
 
-function renderLockedSig(i, sigObj){
-  const block=document.getElementById(`sigBlock-${i}`);
-  if(!block) return;
+function renderLockedSig(i,sigObj){
+  const block=document.getElementById(`sigBlock-${i}`);if(!block)return;
   block.className='sig-block signed';
   document.getElementById(`sigBadge-${i}`).className='sig-badge ok';
   document.getElementById(`sigBadge-${i}`).textContent='Firmado ✓';
   const canvasArea=document.getElementById(`sigCanvasArea-${i}`);
-  const ts=sigObj.firmado_en ? new Date(sigObj.firmado_en).toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'}) : '';
+  const ts=sigObj.firmado_en?new Date(sigObj.firmado_en).toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'}):'';
   canvasArea.outerHTML=`<div class="sig-img-area"><img src="${sigObj.data}" alt="firma"/><span class="sig-ts">${ts}</span></div>`;
   const aclDiv=block.querySelector('.sig-acl');
-  if(aclDiv) aclDiv.innerHTML=`<div class="sig-acl-text">${escHtml(sigObj.aclaracion)}</div>`;
+  if(aclDiv)aclDiv.innerHTML=`<div class="sig-acl-text">${escHtml(sigObj.aclaracion)}</div>`;
   const btn=document.getElementById(`sigBtn-${i}`);
-  if(btn) btn.outerHTML=`<div style="padding:6px;text-align:center;font-size:11px;color:var(--green);font-weight:600;background:#f4fbf8">✓ Firmado por ${escHtml(sigObj.aclaracion)}</div>`;
+  if(btn)btn.outerHTML=`<div style="padding:6px;text-align:center;font-size:11px;color:var(--green);font-weight:600;background:#f4fbf8">✓ Firmado por ${escHtml(sigObj.aclaracion)}</div>`;
 }
 
 function updateSigProgress(){
@@ -568,125 +455,63 @@ function updateSigProgress(){
   document.getElementById('sigProgress').style.width=(count/4*100)+'%';
 }
 
-// ─── SHARE MODAL ──────────────────────────────────────────────────────
 async function openShareModal(){
-  const ok=await ensureDraftAndShare();
-  if(!ok) return;
+  const ok=await ensureDraftAndShare();if(!ok)return;
   const url=window.location.href;
   document.getElementById('shareUrl').value=url;
-  const msg=encodeURIComponent(`Requerimiento RRHH pendiente de firma:\n${url}`);
-  document.getElementById('waBtn').href=`https://wa.me/?text=${msg}`;
+  document.getElementById('waBtn').href=`https://wa.me/?text=${encodeURIComponent('Requerimiento RRHH pendiente de firma:\n'+url)}`;
   document.getElementById('shareOverlay').classList.add('open');
 }
-
-function closeShareModal(e){ if(e&&e.target!==document.getElementById('shareOverlay'))return; document.getElementById('shareOverlay').classList.remove('open'); }
-
+function closeShareModal(e){if(e&&e.target!==document.getElementById('shareOverlay'))return;document.getElementById('shareOverlay').classList.remove('open');}
 async function copyLink(){
   const url=document.getElementById('shareUrl').value;
-  try{ await navigator.clipboard.writeText(url); }
-  catch(_){ document.getElementById('shareUrl').select(); document.execCommand('copy'); }
-  const fb=document.getElementById('copyFeedback'); fb.textContent='¡Link copiado!';
-  setTimeout(()=>fb.textContent='',2500);
+  try{await navigator.clipboard.writeText(url);}catch(_){document.getElementById('shareUrl').select();document.execCommand('copy');}
+  const fb=document.getElementById('copyFeedback');fb.textContent='¡Link copiado!';setTimeout(()=>fb.textContent='',2500);
 }
+function shareEmail(){const url=document.getElementById('shareUrl').value;window.open(`mailto:?subject=Requerimiento%20RRHH%20pendiente%20de%20firma&body=Por%20favor%20firmá%20el%20formulario%20adjunto:%0A${encodeURIComponent(url)}`);}
+function updateSharePill(saved){const p=document.getElementById('sharePill');if(saved){p.className='share-pill saved';document.getElementById('sharePillLabel').textContent='Compartir link de firma';}}
 
-function shareEmail(){
-  const url=document.getElementById('shareUrl').value;
-  window.open(`mailto:?subject=Requerimiento%20RRHH%20pendiente%20de%20firma&body=Por%20favor%20firmá%20el%20formulario%20adjunto:%0A${encodeURIComponent(url)}`);
-}
-
-function updateSharePill(saved){
-  const p=document.getElementById('sharePill');
-  if(saved){ p.className='share-pill saved'; document.getElementById('sharePillLabel').textContent='Compartir link de firma'; }
-}
-
-// ─── SUBMIT — versión corregida con redirect:follow y mejor manejo de errores ───
 async function submitForm(){
-  if(!draftId){
-    showToast('Guardá el formulario primero con "Guardar y compartir".','err');
-    return;
-  }
-  if(!APPS_SCRIPT_URL || APPS_SCRIPT_URL === '' || APPS_SCRIPT_URL.includes('TU_URL')){
-    showToast('Configurá la URL de Google Apps Script en el archivo.','err');
-    return;
-  }
-
-  const btn = document.getElementById('submitBtn');
-  btn.classList.add('loading');
-  btn.disabled = true;
-  showToast('Generando PDF y subiendo a Drive…', 'ok', 8000);
-
-  try {
-    // 1) Generar PDF en base64
-    const pdfBase64 = await buildPDFBase64();
-
-    // 2) Preparar payload
-    const datos         = collectFormData();
-    const empNombre     = datos.empNombre || 'empleado';
-    const fecha         = datos.fecha || new Date().toISOString().split('T')[0];
-    const nombreArchivo = `Requerimiento_${datos.tipo||'rrhh'}_${empNombre.replace(/\s+/g,'_')}_${fecha}.pdf`;
-
-    const payload = {
-      ...datos,
-      draftId,
-      nombreArchivo,
-      pdfBase64,
-      firmas: {
-        solicitante:  sigData[0] ? sigData[0].aclaracion : null,
-        ejecutivo:    sigData[1] ? sigData[1].aclaracion : null,
-        rrhh:         sigData[2] ? sigData[2].aclaracion : null,
-        autorizacion: sigData[3] ? sigData[3].aclaracion : null,
+  if(!draftId){showToast('Guardá el formulario primero con "Guardar y compartir".','err');return;}
+  if(!APPS_SCRIPT_URL||APPS_SCRIPT_URL.includes('REEMPLAZAR')){showToast('Configurá la URL de Google Apps Script en el archivo.','err');return;}
+  const btn=document.getElementById('submitBtn');btn.classList.add('loading');btn.disabled=true;
+  showToast('Generando PDF y subiendo a Drive…','ok',8000);
+  try{
+    const pdfBase64=await buildPDFBase64();
+    const datos=collectFormData();
+    const empNombre=datos.empNombre||'empleado';
+    const fecha=datos.fecha||new Date().toISOString().split('T')[0];
+    const nombreArchivo=`Requerimiento_${datos.tipo||'rrhh'}_${empNombre.replace(/\s+/g,'_')}_${fecha}.pdf`;
+    const payload={...datos,draftId,nombreArchivo,pdfBase64,
+      firmas:{
+        solicitante:sigData[0]?sigData[0].aclaracion:null,
+        ejecutivo:sigData[1]?sigData[1].aclaracion:null,
+        rrhh:sigData[2]?sigData[2].aclaracion:null,
+        autorizacion:sigData[3]?sigData[3].aclaracion:null,
       }
     };
-
-    // 3) Enviar a Apps Script
-    //    Content-Type: text/plain evita preflight CORS
-    //    redirect: 'follow' sigue la redirección 302 que hace Apps Script internamente
-    const res = await fetch(APPS_SCRIPT_URL, {
-      method:   'POST',
-      headers:  { 'Content-Type': 'text/plain;charset=utf-8' },
-      body:     JSON.stringify(payload),
-      redirect: 'follow',
-    });
-
-    // 4) Leer respuesta
-    const txt = await res.text();
-    let resp = {};
-    try { resp = JSON.parse(txt); } catch(_) {}
-
-    if (resp.ok || res.ok) {
-      await SB.patch(`/borradores?id=eq.${draftId}`, { estado: 'enviado' });
-      showToast(`✓ PDF subido a Drive: ${resp.fileName || nombreArchivo}`, 'ok', 7000);
-    } else {
-      throw new Error(resp.error || `HTTP ${res.status}`);
-    }
-
-  } catch(e) {
-    console.error('submitForm error:', e);
-    if (e.message && e.message.toLowerCase().includes('failed to fetch')) {
-      showToast('No se pudo conectar con Apps Script. Verificá que esté publicado como "Aplicación web → Cualquier persona".', 'err');
-    } else {
-      showToast('Error al subir a Drive: ' + e.message, 'err');
-    }
-  } finally {
-    btn.classList.remove('loading');
-    btn.disabled = false;
-  }
+    const res=await fetch(APPS_SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload),redirect:'follow'});
+    const txt=await res.text();
+    let resp={};try{resp=JSON.parse(txt);}catch(_){}
+    if(resp.ok||res.ok){
+      await SB.patch(`/borradores?id=eq.${draftId}`,{estado:'enviado'});
+      showToast(`✓ PDF subido a Drive: ${resp.fileName||nombreArchivo}`,'ok',7000);
+    }else{throw new Error(resp.error||`HTTP ${res.status}`);}
+  }catch(e){
+    console.error('submitForm error:',e);
+    if(e.message&&e.message.toLowerCase().includes('failed to fetch')){
+      showToast('No se pudo conectar. Verificá que el Apps Script esté publicado como "Aplicación web → Cualquier persona".','err');
+    }else{showToast('Error al subir a Drive: '+e.message,'err');}
+  }finally{btn.classList.remove('loading');btn.disabled=false;}
 }
 
-// ─── GENERAR PDF Y DEVOLVER BASE64 ────────────────────────────────────
 async function buildPDFBase64(){
   if(!window.jspdf){
-    await new Promise((res,rej)=>{
-      const s=document.createElement('script');
-      s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
-      s.onload=res; s.onerror=rej;
-      document.head.appendChild(s);
-    });
+    await new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';s.onload=res;s.onerror=rej;document.head.appendChild(s);});
   }
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({ unit:'mm', format:'a4' });
-  const W=210, ML=18, MR=18, CW=W-ML-MR;
-  let y=0;
+  const{jsPDF}=window.jspdf;
+  const doc=new jsPDF({unit:'mm',format:'a4'});
+  const W=210,ML=18,MR=18,CW=W-ML-MR;let y=0;
   const hex2rgb=h=>{const r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16);return[r,g,b];};
   function setColor(hex,type='fill'){const[r,g,b]=hex2rgb(hex);type==='fill'?doc.setFillColor(r,g,b):doc.setTextColor(r,g,b);}
   function label(txt,x,yy){doc.setFontSize(7.5);doc.setFont('helvetica','bold');setColor('#5a6478','text');doc.text(txt.toUpperCase(),x,yy);}
@@ -696,19 +521,12 @@ async function buildPDFBase64(){
   function row1(l,vv,yy,maxW){label(l,ML,yy);const n=value(vv,ML,yy+4,maxW||CW);return yy+n*4.5+8;}
   function checkPage(needed){if(y+needed>272){doc.addPage();y=18;}}
   setColor('#0f2240','fill');doc.rect(0,0,W,28,'F');
-  doc.setFontSize(9);doc.setFont('helvetica','normal');setColor('#ffffff88','text');
-  doc.text('GERENCIA DE RECURSOS HUMANOS',ML,10);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');setColor('#ffffff88','text');doc.text('GERENCIA DE RECURSOS HUMANOS',ML,10);
   doc.setFontSize(16);doc.setFont('helvetica','bold');setColor('#ffffff','text');
-  const titulo=currentType==='baja'?'Requerimiento de Baja de Personal':'Requerimiento de Traslado de Personal';
-  doc.text(titulo,ML,20);
-  doc.setFontSize(8);doc.setFont('helvetica','normal');setColor('#ffffffaa','text');
-  doc.text('Fecha: '+(v('fecha')||'—'),W-MR-28,20);
-  const badgeColor=currentType==='baja'?'#fdf0ee':'#e6f4f1';
-  const badgeText=currentType==='baja'?'BAJA':'TRASLADO';
-  const badgeTextColor=currentType==='baja'?'#c0392b':'#145a4a';
-  setColor(badgeColor,'fill');doc.roundedRect(ML,30,22,6,1,1,'F');
-  doc.setFontSize(7);doc.setFont('helvetica','bold');setColor(badgeTextColor,'text');
-  doc.text(badgeText,ML+2,34.5);
+  doc.text(currentType==='baja'?'Requerimiento de Baja de Personal':'Requerimiento de Traslado de Personal',ML,20);
+  doc.setFontSize(8);doc.setFont('helvetica','normal');setColor('#ffffffaa','text');doc.text('Fecha: '+(v('fecha')||'—'),W-MR-28,20);
+  const bc=currentType==='baja'?'#fdf0ee':'#e6f4f1',bt=currentType==='baja'?'BAJA':'TRASLADO',btc=currentType==='baja'?'#c0392b':'#145a4a';
+  setColor(bc,'fill');doc.roundedRect(ML,30,22,6,1,1,'F');doc.setFontSize(7);doc.setFont('helvetica','bold');setColor(btc,'text');doc.text(bt,ML+2,34.5);
   y=44;
   y=sectionTitle('Datos del Solicitante',y);checkPage(20);
   y=row2('Solicitante',v('solicitante'),'Puesto',v('puestoSol'),y);
@@ -737,10 +555,8 @@ async function buildPDFBase64(){
   const sigW=(CW-9)/4;
   for(let i=0;i<4;i++){
     const x=ML+i*(sigW+3);
-    setColor('#f8f9fc','fill');doc.setDrawColor(208,215,230);
-    doc.rect(x,y,sigW,32,'FD');
-    doc.setFontSize(6.5);doc.setFont('helvetica','bold');setColor('#5a6478','text');
-    doc.text(SIG_ROLES[i].toUpperCase(),x+2,y+5);
+    setColor('#f8f9fc','fill');doc.setDrawColor(208,215,230);doc.rect(x,y,sigW,32,'FD');
+    doc.setFontSize(6.5);doc.setFont('helvetica','bold');setColor('#5a6478','text');doc.text(SIG_ROLES[i].toUpperCase(),x+2,y+5);
     if(sigData[i]&&sigData[i].data){try{doc.addImage(sigData[i].data,'PNG',x+1,y+6,sigW-2,18);}catch(_){}}
     setColor('#d0d7e6','fill');doc.rect(x+2,y+26,sigW-4,0.3,'F');
     doc.setFontSize(7);doc.setFont('helvetica','normal');setColor('#1a1a2e','text');
@@ -750,8 +566,7 @@ async function buildPDFBase64(){
   y+=38;
   const pages=doc.getNumberOfPages();
   for(let p=1;p<=pages;p++){
-    doc.setPage(p);
-    setColor('#d0d7e6','fill');doc.rect(ML,287,CW,0.3,'F');
+    doc.setPage(p);setColor('#d0d7e6','fill');doc.rect(ML,287,CW,0.3,'F');
     doc.setFontSize(7);doc.setFont('helvetica','normal');setColor('#5a6478','text');
     doc.text('Documento generado por sistema RRHH — Uso interno',ML,291);
     doc.text(`Página ${p} de ${pages}`,W-MR,291,{align:'right'});
@@ -759,49 +574,31 @@ async function buildPDFBase64(){
   return doc.output('datauristring').split(',')[1];
 }
 
-// ─── RESET ────────────────────────────────────────────────────────────
-function resetForm(){
-  if(!confirm('¿Crear un formulario nuevo? El actual se perderá.')) return;
-  window.location.href=window.location.pathname;
-}
+function resetForm(){if(!confirm('¿Crear un formulario nuevo? El actual se perderá.'))return;window.location.href=window.location.pathname;}
 
-// ─── DESCARGAR PDF ────────────────────────────────────────────────────
 async function downloadPDF(){
-  const btn=document.getElementById('pdfBtn');
-  btn.classList.add('loading'); btn.disabled=true;
+  const btn=document.getElementById('pdfBtn');btn.classList.add('loading');btn.disabled=true;
   try{
     const base64=await buildPDFBase64();
-    const empNombre=v('empNombre')||'empleado';
-    const fecha=v('fecha')||new Date().toISOString().split('T')[0];
-    const nombreArchivo=`Requerimiento_${currentType}_${empNombre.replace(/\s+/g,'_')}_${fecha}.pdf`;
+    const nombreArchivo=`Requerimiento_${currentType}_${(v('empNombre')||'empleado').replace(/\s+/g,'_')}_${v('fecha')||new Date().toISOString().split('T')[0]}.pdf`;
     const byteArr=Uint8Array.from(atob(base64),c=>c.charCodeAt(0));
     const blob=new Blob([byteArr],{type:'application/pdf'});
     const url=URL.createObjectURL(blob);
-    const a=document.createElement('a'); a.href=url; a.download=nombreArchivo; a.click();
-    URL.revokeObjectURL(url);
-    showToast('PDF descargado correctamente','ok');
-  }catch(e){ showToast('Error al generar el PDF','err'); console.error(e); }
-  finally{ btn.classList.remove('loading'); btn.disabled=false; }
+    const a=document.createElement('a');a.href=url;a.download=nombreArchivo;a.click();
+    URL.revokeObjectURL(url);showToast('PDF descargado correctamente','ok');
+  }catch(e){showToast('Error al generar el PDF','err');console.error(e);}
+  finally{btn.classList.remove('loading');btn.disabled=false;}
 }
 
-// ─── UTILS ────────────────────────────────────────────────────────────
-function flashSync(){
-  const d=document.getElementById('syncDot');
-  d.className='sync-dot pulse';
-  setTimeout(()=>d.className='sync-dot',1200);
-}
-function showToast(msg,type,dur=4000){
-  const t=document.getElementById('toast'); t.textContent=msg; t.className=`toast ${type} show`;
-  setTimeout(()=>t.className='toast',dur);
-}
-function escHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function flashSync(){const d=document.getElementById('syncDot');d.className='sync-dot pulse';setTimeout(()=>d.className='sync-dot',1200);}
+function showToast(msg,type,dur=4000){const t=document.getElementById('toast');t.textContent=msg;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',dur);}
+function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
 window.addEventListener('load',()=>{
   document.getElementById('fecha').value=new Date().toISOString().split('T')[0];
   buildSignatures();
-  const params=new URLSearchParams(window.location.search);
-  const id=params.get('id');
-  if(id){ loadDraft(id); }
+  const id=new URLSearchParams(window.location.search).get('id');
+  if(id)loadDraft(id);
 });
 </script>
 </body>
