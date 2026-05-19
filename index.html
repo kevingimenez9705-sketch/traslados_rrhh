@@ -322,7 +322,7 @@ const SUPABASE_URL  = 'https://opudhfyutajkhufzuqxy.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9wdWRoZnl1dGFqa2h1Znp1cXh5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxODM3OTksImV4cCI6MjA5NDc1OTc5OX0.t4G0dakgazye_lENJXWJwnawLi0JRsVSsLkhnwP8CcA';
 
 // ── REEMPLAZA con tu URL de Google Apps Script (ver instrucciones en README) ──
-const APPS_SCRIPT_URL = 'PEGAR_URL_DE_APPS_SCRIPT_AQUI';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwKcTG-czvxdAllQYRVfkGlNphETlw0OutcCpBOlkeOeHcumQV65ij1hkHbL4p_qWLScA/exec';
 // ════════════════════════════════════════════════════════════════════════
 
 const SIG_ROLES = ['Solicitante','Ejecutivo Resp.','RRHH / Legales','Autorización'];
@@ -611,7 +611,7 @@ function updateSharePill(saved){
 // ─── SUBMIT → genera PDF y lo envía a Google Drive via Apps Script ────
 async function submitForm(){
   if(!draftId){ showToast('Guardá el formulario primero con "Guardar y compartir".','err'); return; }
-  if(!APPS_SCRIPT_URL || APPS_SCRIPT_URL === 'PEGAR_URL_DE_APPS_SCRIPT_AQUI'){
+  if(!APPS_SCRIPT_URL || APPS_SCRIPT_URL === ''){
     showToast('Configurá la URL de Google Apps Script en el archivo.','err'); return;
   }
   const btn=document.getElementById('submitBtn');
