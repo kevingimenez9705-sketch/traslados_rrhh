@@ -271,7 +271,7 @@ body{font-family:'DM Sans',sans-serif;background:#f0f3f9;color:var(--text);min-h
       <p class="copy-feedback" id="copyFeedback"></p>
       <div class="roles-note">
         <strong>Roles en este formulario:</strong><br>
-        Jefe/zonal · Gerente · Director · Aprobacion rrhh<br>
+        Jefe/zonal · Gerente · Director · Aprobacion <br>
         Cada persona abre el mismo link y firma su bloque. Las firmas se sincronizan automáticamente.
       </div>
     </div>
@@ -288,7 +288,7 @@ const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyho3cUbl7XPT7eVnYiEjk4oORAY0xq_NHXyRsmvfuy-Seq4ioHaRuN6tXS3t5mXHwJ/exec';
 // ═══════════════════════════════════════════════════════════════════════
 
-const SIG_ROLES = ['Solicitante','Ejecutivo Resp.','RRHH / Legales','Autorización'];
+const SIG_ROLES = ['Jefe/Zonal','Gerente.','Director','Aprobacion rrhh'];
 let currentType='baja', draftId=null, saveTimer=null, pollTimer=null;
 let sigStates=[false,false,false,false], sigLocked=[false,false,false,false], sigData=[null,null,null,null];
 
